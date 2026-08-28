@@ -1,0 +1,48 @@
+{
+  "month": "2026-07",
+  "snapshot_date": "2026-08-28",
+  "savings": {
+    "apy": 4.00,
+    "balance": 2418
+  },
+  "mortgage": {
+    "rate": 3.75,
+    "principal": 111766,
+    "monthly_pi": 603,
+    "principal_portion": 253,
+    "interest_portion": 349,
+    "escrow": 600
+  },
+  "macro_context": {
+    "fed_funds": 3.63,
+    "treasury_1y": 4.05,
+    "treasury_10y": 4.55,
+    "mortgage_30y_market": 6.60,
+    "cpi_yoy": 3.4,
+    "h8_summary": "Peak-to-fade. Small-bank funding peaked mid-July, TGA drain active, 3 FOMC dissents for a hike."
+  },
+  "spending": {
+    "total": 8784,
+    "categories": [
+      {"name": "Housing", "amount": 1394},
+      {"name": "Groceries", "amount": 1000},
+      {"name": "Savings & Investments", "amount": 986},
+      {"name": "Dining", "amount": 480},
+      {"name": "Transportation", "amount": 470},
+      {"name": "Utilities", "amount": 535},
+      {"name": "Personal", "amount": 525},
+      {"name": "Subscriptions", "amount": 290},
+      {"name": "Insurance", "amount": 183},
+      {"name": "Entertainment", "amount": 167},
+      {"name": "Healthcare", "amount": 87},
+      {"name": "Other", "amount": 2667}
+    ]
+  },
+  "reads": {
+    "savings": "Your checking earns <strong>4.00% APY</strong> — nearly matching the 1Y Treasury at 4.05%. With CPI at 3.4%, your real yield is <strong>+0.6%</strong>: purchasing power is growing, barely. Your credit union is doing exactly what the H.8 showed small banks doing in July — paying competitive rates on core deposits to retain relationship money rather than relying on expensive wholesale funding. That 4% rate is the consumer-facing side of the deposit competition story. As long as the Fed holds at 3.50–3.75%, this rate holds. The three hawkish FOMC dissents in July are actually favorable for your APY — if they hike, your variable rate likely moves up. The risk is the other direction: when cuts eventually come, this drops first.",
+    "mortgage": "Your <strong>3.75% fixed rate</strong>, locked in September 2019, sits nearly <strong>3 percentage points below</strong> today's ~6.6% market rate. This is one of the most valuable financial positions you hold. Each month, $253 of your $603 P&I goes to principal — building equity at a borrowing cost that would run roughly $615/month in interest alone at current origination rates. Refinancing destroys value here; you hold this rate until maturity or until market rates drop well below 3.75%, which the current Fed posture makes unlikely. The $600 escrow covers property tax, FHA mortgage insurance ($79/month), and hazard insurance. The FHA MIP is a cost you carry for the life of this loan — but at 3.75% vs 6.6%, absorbing the MIP is still the right trade.",
+    "spending": "<strong>Groceries ($1,000)</strong> is your top discretionary category — Walmart, Aldi, Kroger, and Meijer drive most of it. Dining runs $480, distributed across frequent fast-food and coffee stops rather than a few large meals. Fuel at $470 reflects elevated gas prices. Your subscription stack at $290 includes Anthropic, Adobe, Amazon Prime, Spotify, Ring, GitHub, and several others. <strong>$986 flowing to investment accounts</strong> (Robinhood + brokerage) represents a 10.6% savings rate against gross deposits — solid capital accumulation. Housing at $1,394 includes the mortgage payment plus Home Depot and lawn care. Other ($2,667) includes <strong>debt service of $897</strong> (Lake Trust $260, Synchrony $500, Citibank $100, Chase $37), ATM cash withdrawals of $824, and Venmo transfers of $345.",
+    "macro_connection": "Your credit union sits in the small-bank tier the H.8 tracks weekly. Through July, that tier's funding health went from 'strongest in the dataset' to 'adequate but starting to fade.' Core deposits accreted while CDs declined — institutions like yours paying competitive checking rates to keep relationship money. Your 4% APY is that story, in your statement. The TGA reserve drain starting late July thinned small-bank cash cushions from $509B to $487B; your credit union's reserves thinned with the system. Your 3.75% mortgage, meanwhile, is entirely insulated from current rate movements — locked and getting more valuable every time market rates rise. With the 10Y pushing toward 4.69% and 30Y mortgages near 6.6%, your locked rate widens the spread in your favor.",
+    "monthly_note": "July 2026 was the month the small-bank funding story peaked and began to turn. Your credit union — a small financial institution in the Taylor, MI area — captured that arc.\n\nThrough mid-July, the H.8 showed the healthiest small-bank funding picture in the dataset: core deposits accreting, borrowings at record lows ($280.5B), cash cushions at multi-month highs. Your 4.00% checking APY is the consumer-facing expression of that health — credit unions competing for relationship deposits by paying near-Treasury rates on liquid accounts. With CPI at 3.4%, your real yield is a slim but positive 0.6%.\n\nThe turn came in the back half of the month. Treasury began building its cash balance toward the $950B QRA target, draining reserves from the banking system. Small-bank cash dropped from $509B mid-month to $487B by month-end. The FOMC held at 3.50–3.75% on July 29, but three regional presidents dissented for a hike — the most hawkish signal since 2016. September hike odds hit 63%.\n\nYour mortgage at 3.75% is the anchor of the household balance sheet. Originated in 2019 at $130K, now at $111,766 — you've paid down $18,333 in principal over nearly seven years. At current market rates near 6.6%, this loan would cost roughly $615/month in interest alone versus your $349. That spread is locked wealth. The escrow ($600/month) covers property tax, FHA insurance, and hazard insurance — costs that rise with assessments and premiums, not with the Fed.\n\nTwo income streams brought in roughly $9,328 in regular deposits against $8,784 in total outflows. The $986 flowing to investment accounts is a 10.6% savings rate — meaningful capital accumulation. Debt service at $897/month (Lake Trust, Synchrony, Citibank, Chase) is the rate-sensitive line item: if the Fed hikes in September, variable-rate balances cost more immediately. Your mortgage doesn't move.\n\nThe forward read: your household is positioned well for a rate-hold or hike environment. The 3.75% mortgage gets more valuable as market rates rise. The 4% checking APY could increase with a hike. The vulnerability is on the debt service side — credit card and consumer loan rates rise — and on the employment side, where July NFP at −23K suggests hiring has paused. Watch whether August and September employment data confirm that softening."
+  }
+}
