@@ -190,19 +190,26 @@ function renderVitals(allData, months){
   const outflowsDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
     rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDollar(allData[m]?.spending?.total || 0) + '<br>').join('');
   const surplusDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
-    rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDelta((allData[m]?.income?.total || 0) - (allData[m]?.spending?.total || 0)) + '<br>').join('');
+    rollingMonths.map(m => {
+      const ms = (allData[m]?.income?.total || 0) - (allData[m]?.spending?.total || 0);
+      return fmtMonthShort(m) + ': <span class="' + (ms > 0 ? 'up' : 'down') + '">' + fmtDelta(ms) + '</span><br>';
+    }).join('');
   const spendRateDetail = rollingLabel + '<br>' +
-    rollingMonths.map(m => fmtMonthShort(m) + ': ' + ((allData[m]?.spending?.total || 0) / (allData[m]?.income?.total || 1) * 100).toFixed(1) + '%<br>').join('');
+    rollingMonths.map(m => {
+      const mr = (allData[m]?.spending?.total || 0) / (allData[m]?.income?.total || 1) * 100;
+      return fmtMonthShort(m) + ': <span class="' + (mr <= 100 ? 'up' : 'down') + '">' + mr.toFixed(1) + '%</span><br>';
+    }).join('');
   const savingsRateDetail = rollingLabel + ' · target: 15–20%<br>' +
     rollingMonths.map(m => {
       const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
-      return fmtMonthShort(m) + ': ' + (si / (allData[m]?.income?.total || 1) * 100).toFixed(1) + '%<br>';
+      const mr = si / (allData[m]?.income?.total || 1) * 100;
+      return fmtMonthShort(m) + ': <span class="' + (mr >= 15 ? 'up' : mr >= 10 ? 'flat' : 'down') + '">' + mr.toFixed(1) + '%</span><br>';
     }).join('');
   const debtServiceDetail = rollingLabel + ' · target: below 10%<br>' +
     rollingMonths.map(m => {
       const ds = allData[m]?.debt_service?.total || 0;
-      const ratio = (ds / (allData[m]?.income?.total || 1) * 100).toFixed(1);
-      return fmtMonthShort(m) + ': ' + fmtDollar(ds) + ' (' + ratio + '%)<br>';
+      const ratio = (ds / (allData[m]?.income?.total || 1) * 100);
+      return fmtMonthShort(m) + ': <span class="' + (ratio < 10 ? 'up' : 'down') + '">' + fmtDollar(ds) + ' (' + ratio.toFixed(1) + '%)</span><br>';
     }).join('');
 
   // Latest-month position strip (all values pulled dynamically)
