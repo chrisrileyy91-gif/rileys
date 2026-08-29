@@ -220,31 +220,37 @@ function renderVitals(allData, months){
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING INCOME</div>
         <div class="econ-value">${fmtDollar(rollingIncome)}</div>
+        <div class="econ-sub">3-month average</div>
         <div class="econ-detail">${incomeDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING OUTFLOWS</div>
         <div class="econ-value">${fmtDollar(rollingOutflows)}</div>
+        <div class="econ-sub">3-month average</div>
         <div class="econ-detail">${outflowsDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING SURPLUS</div>
         <div class="econ-value ${rollingSurplus > 0 ? 'up' : 'down'}">${fmtDelta(rollingSurplus)}</div>
+        <div class="econ-sub">3-month average · <span class="${rollingSurplus > 0 ? 'up' : 'down'}">${rollingSurplus > 0 ? 'Save' : 'Trim'}</span></div>
         <div class="econ-detail">${surplusDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">SPENDING RATE</div>
         <div class="econ-value ${rollingSpendRate <= 100 ? 'up' : 'down'}">${rollingSpendRate.toFixed(1) + '%'}</div>
+        <div class="econ-sub">3-month average · <span class="${rollingSpendRate <= 100 ? 'up' : 'down'}">${rollingSpendRate <= 100 ? 'Save' : 'Trim'}</span></div>
         <div class="econ-detail">${spendRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">SAVINGS RATE</div>
         <div class="econ-value ${rollingSavingsRate >= 15 ? 'up' : rollingSavingsRate >= 10 ? 'flat' : 'down'}">${rollingSavingsRate.toFixed(1) + '%'}</div>
+        <div class="econ-sub">3-month average${rollingSavingsRate >= 15 ? ' · <span class="up">Save</span>' : rollingSavingsRate < 10 ? ' · <span class="down">Trim</span>' : ''}</div>
         <div class="econ-detail">${savingsRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">DEBT SERVICE</div>
         <div class="econ-value ${rollingDebtRatio < 10 ? 'up' : 'down'}">${fmtDollar(rollingDebtService)}</div>
+        <div class="econ-sub">3-month average${rollingDebtRatio >= 10 ? ' · <span class="down">Trim</span>' : ''}</div>
         <div class="econ-detail">${debtServiceDetail}</div>
       </div>
     </div>
