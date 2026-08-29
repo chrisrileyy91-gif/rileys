@@ -78,11 +78,14 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 /* Household economy */
 .econ-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
-.econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; }
+.econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; cursor:pointer; transition:background 0.15s; }
+.econ-cell:hover { background:var(--surface-hover); }
 .econ-cell-wide { grid-column:1 / -1; }
 .econ-label { font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; }
 .econ-value { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; margin-top:4px; }
 .econ-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); margin-top:2px; }
+.econ-detail { display:none; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-secondary); line-height:1.6; }
+.econ-detail.open { display:block; }
 
 .spend-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
 .spend-row:last-child { border-bottom:none; }
@@ -127,7 +130,6 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .month-row:hover { background:var(--surface-hover); }
 .month-row-name { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600; }
 .month-row-stats { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); text-align:right; }
-.trend-arrow { font-size:12px; margin-left:4px; }
 </style>
 </head>
 <body>
@@ -160,44 +162,48 @@ function renderEmpty(){
   $('app').innerHTML=`<div class="empty-state"><div class="empty-title">No data yet</div><div class="empty-text">Upload your first bank and mortgage statements in the Claude project. The extracted data arrives here as a monthly snapshot — no raw statements, no PII, just rates, balances, and the mechanism read.</div></div>`;
 }
 
-function avgOf(arr){ const v=arr.filter(x=>x!==null&&x!==undefined&&!isNaN(x)); return v.length?v.reduce((a,b)=>a+b,0)/v.length:0; }
 function savingsCat(d){ return d?.spending?.categories?.find(c=>c.name==='Savings & Investments')?.amount ?? null; }
 
 /* ---- Section 2: Vitals ---- */
 function renderVitals(allData, months){
-  const rangeLabel = fmtMonthShort(months[0]) + ' – ' + fmtMonthShort(months[months.length-1]) + ' · ' + months.length + ' months';
-  const incomes=months.map(m=>allData[m]?.income?.total ?? null);
-  const outflows=months.map(m=>allData[m]?.spending?.total ?? null);
-  const surpluses=months.map(m=>{
-    const i=allData[m]?.income?.total, s=allData[m]?.spending?.total;
-    return (i!=null&&s!=null)?i-s:null;
-  });
-  const savingsAmts=months.map(m=>savingsCat(allData[m]));
-  const debts=months.map(m=>allData[m]?.debt_service?.total ?? null);
+  const rollingMonths = months.slice(-3);
+  const rc = rollingMonths.length;
+  const rollingStart = fmtMonthShort(rollingMonths[0]);
+  const rollingEnd = fmtMonthShort(rollingMonths[rc - 1]);
+  const rollingLabel = rc === 1 ? rollingStart : rollingStart + ' – ' + rollingEnd;
 
-  const avgIncome=avgOf(incomes);
-  const avgOutflows=avgOf(outflows);
-  const avgSurplus=avgOf(surpluses);
-  const spendRate=avgIncome?(avgOutflows/avgIncome)*100:0;
-  const savingsRate=avgIncome?(avgOf(savingsAmts)/avgIncome)*100:0;
-  const avgDebt=avgOf(debts);
-  const debtRatio=(avgIncome&&avgDebt>0)?(avgDebt/avgIncome)*100:null;
+  const rollingIncome = rollingMonths.reduce((s, m) => s + (allData[m]?.income?.total || 0), 0) / rc;
+  const rollingOutflows = rollingMonths.reduce((s, m) => s + (allData[m]?.spending?.total || 0), 0) / rc;
+  const rollingSurplus = rollingIncome - rollingOutflows;
+  const rollingSpendRate = (rollingOutflows / rollingIncome) * 100;
+  const rollingSavingsRate = rollingMonths.reduce((s, m) => {
+    const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
+    const inc = allData[m]?.income?.total || 1;
+    return s + (si / inc) * 100;
+  }, 0) / rc;
+  const rollingDebtService = rollingMonths.reduce((s, m) => s + (allData[m]?.debt_service?.total || 0), 0) / rc;
+  const rollingDebtRatio = (rollingDebtService / rollingIncome) * 100;
 
-  // Latest month, for absolute-health benchmarks
-  const latest = allData[months[months.length-1]];
-  const latestIncome = latest?.income?.total || 0;
-  const latestSpending = latest?.spending?.total || 0;
-  const latestSurplus = latestIncome - latestSpending;
-  const latestSpendRate = (latestSpending / latestIncome) * 100;
-  const latestMonthLabel = fmtMonthShort(months[months.length-1]);
-
-  // Trend arrows: DIRECTION = latest vs average; COLOR = latest month's absolute health
-  let surplusArrow='', spendArrow='';
-  if(months.length>=2 && latestIncome){
-    const vsAvg=` <span style="color:var(--text-tertiary);font-family:'JetBrains Mono',monospace;font-size:8px;">vs avg</span>`;
-    surplusArrow=` <span class="trend-arrow ${latestSurplus>0?'up':'down'}">${latestSurplus>=avgSurplus?'↑':'↓'}</span>${vsAvg}`;
-    spendArrow=` <span class="trend-arrow ${latestSpendRate<=100?'up':'down'}">${latestSpendRate<=spendRate?'↓':'↑'}</span>${vsAvg}`;
-  }
+  // Per-month detail rows for each vital (expanded on click)
+  const incomeDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
+    rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDollar(allData[m]?.income?.total || 0) + '<br>').join('');
+  const outflowsDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
+    rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDollar(allData[m]?.spending?.total || 0) + '<br>').join('');
+  const surplusDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
+    rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDelta((allData[m]?.income?.total || 0) - (allData[m]?.spending?.total || 0)) + '<br>').join('');
+  const spendRateDetail = rollingLabel + '<br>' +
+    rollingMonths.map(m => fmtMonthShort(m) + ': ' + ((allData[m]?.spending?.total || 0) / (allData[m]?.income?.total || 1) * 100).toFixed(1) + '%<br>').join('');
+  const savingsRateDetail = rollingLabel + ' · target: 15–20%<br>' +
+    rollingMonths.map(m => {
+      const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
+      return fmtMonthShort(m) + ': ' + (si / (allData[m]?.income?.total || 1) * 100).toFixed(1) + '%<br>';
+    }).join('');
+  const debtServiceDetail = rollingLabel + ' · target: below 10%<br>' +
+    rollingMonths.map(m => {
+      const ds = allData[m]?.debt_service?.total || 0;
+      const ratio = (ds / (allData[m]?.income?.total || 1) * 100).toFixed(1);
+      return fmtMonthShort(m) + ': ' + fmtDollar(ds) + ' (' + ratio + '%)<br>';
+    }).join('');
 
   // Latest-month position strip (all values pulled dynamically)
   const mr=allData[months[months.length-1]]||{};
@@ -209,37 +215,37 @@ function renderVitals(allData, months){
   if(realYield!=null) posParts.push(`Real yield ${realYield>=0?'+':''}${realYield.toFixed(1)}%`);
 
   return `
-    <div class="section-head">Vitals</div>
+    <div class="section-head">Vitals · 3-Month Window</div>
     <div class="econ-grid">
-      <div class="econ-cell">
-        <div class="econ-label">Avg Monthly Income</div>
-        <div class="econ-value">${fmtDollar(avgIncome)}</div>
-        <div class="econ-sub">${rangeLabel + ' · ' + latestMonthLabel + ': ' + fmtDollar(latestIncome)}</div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">ROLLING INCOME</div>
+        <div class="econ-value">${fmtDollar(rollingIncome)}</div>
+        <div class="econ-detail">${incomeDetail}</div>
       </div>
-      <div class="econ-cell">
-        <div class="econ-label">Avg Monthly Outflows</div>
-        <div class="econ-value">${fmtDollar(avgOutflows)}</div>
-        <div class="econ-sub">${rangeLabel + ' · ' + latestMonthLabel + ': ' + fmtDollar(latestSpending)}</div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">ROLLING OUTFLOWS</div>
+        <div class="econ-value">${fmtDollar(rollingOutflows)}</div>
+        <div class="econ-detail">${outflowsDetail}</div>
       </div>
-      <div class="econ-cell">
-        <div class="econ-label">Avg Surplus</div>
-        <div class="econ-value ${avgSurplus>=0?'up':'down'}">${fmtDelta(avgSurplus)}${surplusArrow}</div>
-        <div class="econ-sub">${latestMonthLabel + ': ' + fmtDelta(latestSurplus) + ' · negative = deficit'}</div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">ROLLING SURPLUS</div>
+        <div class="econ-value ${rollingSurplus > 0 ? 'up' : 'down'}">${fmtDelta(rollingSurplus)}</div>
+        <div class="econ-detail">${surplusDetail}</div>
       </div>
-      <div class="econ-cell">
-        <div class="econ-label">Spending Rate</div>
-        <div class="econ-value ${spendRate>100?'down':'up'}">${spendRate.toFixed(1)}%${spendArrow}</div>
-        <div class="econ-sub">${latestMonthLabel + ': ' + latestSpendRate.toFixed(1) + '% · over 100% = deficit'}</div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">SPENDING RATE</div>
+        <div class="econ-value ${rollingSpendRate <= 100 ? 'up' : 'down'}">${rollingSpendRate.toFixed(1) + '%'}</div>
+        <div class="econ-detail">${spendRateDetail}</div>
       </div>
-      <div class="econ-cell">
-        <div class="econ-label">Savings Rate</div>
-        <div class="econ-value ${savingsRate>=10?'up':'flat'}">${savingsRate.toFixed(1)}%</div>
-        <div class="econ-sub">to investment accts · target: 15–20%</div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">SAVINGS RATE</div>
+        <div class="econ-value ${rollingSavingsRate >= 15 ? 'up' : rollingSavingsRate >= 10 ? 'flat' : 'down'}">${rollingSavingsRate.toFixed(1) + '%'}</div>
+        <div class="econ-detail">${savingsRateDetail}</div>
       </div>
-      <div class="econ-cell">
-        <div class="econ-label">Debt Service</div>
-        <div class="econ-value">${avgDebt>0?fmtDollar(avgDebt):'—'}</div>
-        ${debtRatio!==null?`<div class="econ-sub">${debtRatio.toFixed(1)}% of income · target: below 10%</div>`:''}
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">DEBT SERVICE</div>
+        <div class="econ-value ${rollingDebtRatio < 10 ? 'up' : 'down'}">${fmtDollar(rollingDebtService)}</div>
+        <div class="econ-detail">${debtServiceDetail}</div>
       </div>
     </div>
     ${posParts.length?`<div class="vitals-position">Current position: ${posParts.join(' · ')}</div>`:''}`;
