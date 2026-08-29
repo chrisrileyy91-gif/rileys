@@ -183,18 +183,20 @@ function renderVitals(allData, months){
   const avgDebt=avgOf(debts);
   const debtRatio=(avgIncome&&avgDebt>0)?(avgDebt/avgIncome)*100:null;
 
-  // Trend arrows: latest month vs overall average (skip if only 1 month)
+  // Latest month, for absolute-health benchmarks
+  const latest = allData[months[months.length-1]];
+  const latestIncome = latest?.income?.total || 0;
+  const latestSpending = latest?.spending?.total || 0;
+  const latestSurplus = latestIncome - latestSpending;
+  const latestSpendRate = (latestSpending / latestIncome) * 100;
+  const latestMonthLabel = fmtMonthShort(months[months.length-1]);
+
+  // Trend arrows: DIRECTION = latest vs average; COLOR = latest month's absolute health
   let surplusArrow='', spendArrow='';
-  if(months.length>=2){
-    const latest=months[months.length-1];
-    const li=allData[latest]?.income?.total, ls=allData[latest]?.spending?.total;
-    if(li!=null&&ls!=null){
-      const vsAvg=` <span style="color:var(--text-tertiary);font-family:'JetBrains Mono',monospace;font-size:8px;">vs avg</span>`;
-      const latestSurplus=li-ls;
-      surplusArrow=` <span class="trend-arrow ${latestSurplus>=avgSurplus?'up':'down'}">${latestSurplus>=avgSurplus?'↑':'↓'}</span>${vsAvg}`;
-      const latestSpendRate=(ls/li)*100;
-      spendArrow=` <span class="trend-arrow ${latestSpendRate<=spendRate?'up':'down'}">${latestSpendRate<=spendRate?'↓':'↑'}</span>${vsAvg}`;
-    }
+  if(months.length>=2 && latestIncome){
+    const vsAvg=` <span style="color:var(--text-tertiary);font-family:'JetBrains Mono',monospace;font-size:8px;">vs avg</span>`;
+    surplusArrow=` <span class="trend-arrow ${latestSurplus>0?'up':'down'}">${latestSurplus>=avgSurplus?'↑':'↓'}</span>${vsAvg}`;
+    spendArrow=` <span class="trend-arrow ${latestSpendRate<=100?'up':'down'}">${latestSpendRate<=spendRate?'↓':'↑'}</span>${vsAvg}`;
   }
 
   // Latest-month position strip (all values pulled dynamically)
@@ -212,22 +214,22 @@ function renderVitals(allData, months){
       <div class="econ-cell">
         <div class="econ-label">Avg Monthly Income</div>
         <div class="econ-value">${fmtDollar(avgIncome)}</div>
-        <div class="econ-sub">${rangeLabel}</div>
+        <div class="econ-sub">${rangeLabel + ' · ' + latestMonthLabel + ': ' + fmtDollar(latestIncome)}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Avg Monthly Outflows</div>
         <div class="econ-value">${fmtDollar(avgOutflows)}</div>
-        <div class="econ-sub">${rangeLabel}</div>
+        <div class="econ-sub">${rangeLabel + ' · ' + latestMonthLabel + ': ' + fmtDollar(latestSpending)}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Avg Surplus</div>
         <div class="econ-value ${avgSurplus>=0?'up':'down'}">${fmtDelta(avgSurplus)}${surplusArrow}</div>
-        <div class="econ-sub">positive = surplus · negative = deficit</div>
+        <div class="econ-sub">${latestMonthLabel + ': ' + fmtDelta(latestSurplus) + ' · negative = deficit'}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Spending Rate</div>
         <div class="econ-value ${spendRate>100?'down':'up'}">${spendRate.toFixed(1)}%${spendArrow}</div>
-        <div class="econ-sub">below 100% = surplus · above 100% = deficit</div>
+        <div class="econ-sub">${latestMonthLabel + ': ' + latestSpendRate.toFixed(1) + '% · over 100% = deficit'}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Savings Rate</div>
