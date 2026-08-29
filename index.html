@@ -29,17 +29,14 @@
   --blue: #60a5fa;
   --blue-dim: rgba(96,165,250,0.14);
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
 html { background:var(--bg); color:var(--text-primary); font-family:'Inter',system-ui,sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
 body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
-/* ---------- Header ---------- */
 .header { padding:20px 0 16px; border-bottom:1px solid var(--border); margin-bottom:20px; }
-.header-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; letter-spacing:0.02em; color:var(--text-primary); }
+.header-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:600; letter-spacing:0.02em; }
 .header-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); margin-top:4px; letter-spacing:0.5px; text-transform:uppercase; }
 
-/* ---------- Month selector ---------- */
 .month-nav { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
 .month-label { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; flex:1; }
 .month-btn { background:var(--surface); border:1px solid var(--border); color:var(--text-secondary); border-radius:6px; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:11px; cursor:pointer; transition:all 0.15s; }
@@ -47,11 +44,9 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .month-btn:disabled { opacity:0.25; cursor:default; }
 .month-btn:disabled:hover { background:var(--surface); color:var(--text-secondary); }
 
-/* ---------- Section headers ---------- */
 .section-head { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:var(--text-primary); margin:28px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
 .section-head:first-of-type { margin-top:0; }
 
-/* ---------- Cards ---------- */
 .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
 .card-accent { border-left:3px solid var(--gold); }
 .card-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
@@ -62,199 +57,202 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .badge-red { background:var(--red-dim); color:var(--red); border:1px solid rgba(207,92,92,0.35); }
 .badge-blue { background:var(--blue-dim); color:var(--blue); border:1px solid rgba(96,165,250,0.35); }
 
-/* ---------- Data rows ---------- */
 .data-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; margin-bottom:10px; }
 .data-grid-3 { grid-template-columns:1fr 1fr 1fr; }
+.data-grid-4 { grid-template-columns:1fr 1fr 1fr 1fr; }
 .data-key { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.4px; }
 .data-val { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:600; margin-top:2px; }
 .data-val-sm { font-size:12px; }
+.data-val-lg { font-size:18px; }
 .data-compare { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-tertiary); margin-top:1px; }
 
-/* ---------- Read panels (instructional) ---------- */
-.read-panel { background:rgba(201,165,78,0.04); border-left:2px solid rgba(201,165,78,0.3); border-radius:0 6px 6px 0; padding:10px 12px; margin-top:10px; font-size:12px; line-height:1.65; color:var(--text-secondary); }
+/* Collapsible read panels */
+.read-toggle { display:flex; align-items:center; gap:6px; margin-top:10px; padding:6px 0; cursor:pointer; border:none; background:none; color:var(--text-tertiary); font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.5px; width:100%; text-align:left; }
+.read-toggle:hover { color:var(--text-secondary); }
+.read-chevron { transition:transform 0.2s; font-size:8px; }
+.read-toggle.open .read-chevron { transform:rotate(90deg); }
+.read-panel { background:rgba(201,165,78,0.04); border-left:2px solid rgba(201,165,78,0.3); border-radius:0 6px 6px 0; padding:10px 12px; margin-top:6px; font-size:12px; line-height:1.65; color:var(--text-secondary); display:none; }
+.read-panel.open { display:block; }
 .read-panel strong { color:var(--text-primary); font-weight:500; }
+.read-panel-blue { border-left-color:rgba(96,165,250,0.3); background:rgba(96,165,250,0.04); }
 
-/* ---------- Spending ---------- */
+/* Household economy */
+.econ-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+.econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; }
+.econ-cell-wide { grid-column:1 / -1; }
+.econ-label { font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; }
+.econ-value { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; margin-top:4px; }
+.econ-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); margin-top:2px; }
+
 .spend-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
 .spend-row:last-child { border-bottom:none; }
 .spend-rank { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-tertiary); width:16px; text-align:right; }
 .spend-name { flex:1; font-size:13px; }
 .spend-amount { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; }
 .spend-delta { font-family:'JetBrains Mono',monospace; font-size:10px; margin-left:6px; min-width:48px; text-align:right; }
-.spend-bar-wrap { flex:1; height:4px; background:rgba(255,255,255,0.04); border-radius:2px; margin:0 8px; }
-.spend-bar { height:100%; border-radius:2px; background:var(--gold); transition:width 0.3s; }
 
-/* ---------- Macro context ---------- */
 .macro-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; }
 .macro-cell { background:var(--surface); border-radius:6px; padding:8px 10px; text-align:center; }
 .macro-cell .data-key { font-size:8px; }
 .macro-cell .data-val { font-size:13px; }
 
-/* ---------- Monthly note ---------- */
 .note-block { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; margin-top:12px; }
 .note-text { font-size:13px; line-height:1.75; color:var(--text-secondary); }
 .note-text p { margin-bottom:12px; }
 .note-text p:last-child { margin-bottom:0; }
 
-/* ---------- Charts ---------- */
 .chart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; }
 .chart-title { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
 .chart-canvas { width:100%; height:180px; }
 
-/* ---------- Archive ---------- */
 .archive-entry { border-bottom:1px solid var(--border); padding:14px 0; cursor:pointer; }
 .archive-entry:last-child { border-bottom:none; }
 .archive-month { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600; }
 .archive-preview { font-size:12px; color:var(--text-tertiary); margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 
-/* ---------- Empty state ---------- */
 .empty-state { text-align:center; padding:60px 20px; }
 .empty-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; margin-bottom:12px; }
 .empty-text { font-size:13px; color:var(--text-secondary); line-height:1.7; max-width:360px; margin:0 auto; }
 
-/* ---------- Utilities ---------- */
 .up { color:var(--green); }
 .down { color:var(--red); }
 .flat { color:var(--text-tertiary); }
 .hidden { display:none; }
-.mt-sm { margin-top:6px; }
-
-/* ---------- Footer ---------- */
 .footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-tertiary); text-align:center; letter-spacing:0.3px; }
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-title">rileys</div>
-  <div class="header-sub">Personal Financial Reader · Macro Mechanism Spine</div>
+  <div class="header-sub">Household Economy · Macro Mechanism Spine</div>
 </div>
-
 <div id="app"></div>
-
-<div class="footer">
-  Meridian Builds · Research Side of the Wall
-</div>
+<div class="footer">Meridian Builds · Research Side of the Wall</div>
 
 <script>
-/* ==========================================================
-   rileys — Personal Financial Reader
-   Static GH Pages. Reads JSON cold from data/.
-   No secrets, no API calls, no collector.
-   PII never enters this repo — only sanitized extracts.
-   ========================================================== */
-
-const SPEND_CATEGORIES = [
-  'Housing','Groceries','Dining','Transportation','Utilities',
-  'Subscriptions','Insurance','Healthcare','Personal','Entertainment',
-  'Savings & Investments','Other'
-];
-
 const $ = id => document.getElementById(id);
 
-/* ---------- Data loading ---------- */
 async function loadManifest(){
-  try {
-    const r = await fetch('data/index.json');
-    if (!r.ok) return [];
-    return await r.json();
-  } catch { return []; }
+  try { const r = await fetch('data/index.json'); if(!r.ok) return []; return await r.json(); } catch { return []; }
+}
+async function loadMonth(m){
+  try { const r = await fetch(`data/${m}.json`); if(!r.ok) return null; return await r.json(); } catch { return null; }
 }
 
-async function loadMonth(month){
-  try {
-    const r = await fetch(`data/${month}.json`);
-    if (!r.ok) return null;
-    return await r.json();
-  } catch { return null; }
+function fmtPct(n,d=2){ return (n===null||n===undefined||isNaN(n))?'—':n.toFixed(d)+'%'; }
+function fmtDollar(n){ return (n===null||n===undefined||isNaN(n))?'—':'$'+Math.round(n).toLocaleString('en-US'); }
+function fmtDelta(n){ if(n===null||n===undefined||isNaN(n)) return ''; const s=n>=0?'+':''; return s+'$'+Math.abs(Math.round(n)).toLocaleString('en-US'); }
+function fmtDeltaPct(n){ if(n===null||n===undefined||isNaN(n)) return ''; return (n>=0?'+':'')+n.toFixed(1)+'%'; }
+function fmtMonthLabel(m){ const [y,mo]=m.split('-'); return new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(+y,+mo-1,1))); }
+function fmtMonthShort(m){ const [y,mo]=m.split('-'); return new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(new Date(Date.UTC(+y,+mo-1,1)))+" '"+y.slice(2); }
+function deltaClass(n){ return (n===null||n===undefined||isNaN(n))?'flat':n>0?'up':n<0?'down':'flat'; }
+
+function readToggleHtml(label, content, panelClass=''){
+  if(!content) return '';
+  const id = 'read-'+Math.random().toString(36).substr(2,6);
+  return `<button class="read-toggle" onclick="this.classList.toggle('open');document.getElementById('${id}').classList.toggle('open')">
+    <span class="read-chevron">▶</span> ${label}
+  </button>
+  <div class="read-panel ${panelClass}" id="${id}">${content}</div>`;
 }
 
-/* ---------- Formatting ---------- */
-function fmtPct(n, d=2){
-  if (n===null||n===undefined||isNaN(n)) return '—';
-  return n.toFixed(d)+'%';
+function savingsBadge(apy, t1y, cpi){
+  const ry=(apy!=null&&cpi!=null)?apy-cpi:null;
+  if(ry===null) return {kind:'blue',label:'NEW'};
+  if(apy>=t1y&&ry>0) return {kind:'green',label:'STRONG'};
+  if(ry>0) return {kind:'amber',label:'POSITIVE REAL'};
+  return {kind:'red',label:'NEGATIVE REAL'};
 }
-function fmtDollar(n){
-  if (n===null||n===undefined||isNaN(n)) return '—';
-  return '$'+Math.round(n).toLocaleString('en-US');
+function mortgageBadge(rate, mkt){
+  if(rate==null||mkt==null) return {kind:'blue',label:'NEW'};
+  const d=rate-mkt;
+  if(d<-0.5) return {kind:'green',label:'BELOW MARKET'};
+  if(d<=0.25) return {kind:'amber',label:'AT MARKET'};
+  return {kind:'red',label:'ABOVE MARKET'};
 }
-function fmtDelta(n){
-  if (n===null||n===undefined||isNaN(n)) return '';
-  const sign = n>=0?'+':'';
-  if (Math.abs(n)>=1000) return sign+fmtDollar(n).replace('$','$');
-  return sign+'$'+Math.round(n).toLocaleString('en-US');
-}
-function fmtDeltaPct(n){
-  if (n===null||n===undefined||isNaN(n)) return '';
-  const sign = n>=0?'+':'';
-  return sign+n.toFixed(1)+'%';
-}
-function fmtMonthLabel(m){
-  const [y,mo] = m.split('-');
-  const d = new Date(Date.UTC(parseInt(y), parseInt(mo)-1, 1));
-  return new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric',timeZone:'UTC'}).format(d);
-}
-function fmtMonthShort(m){
-  const [y,mo] = m.split('-');
-  const d = new Date(Date.UTC(parseInt(y), parseInt(mo)-1, 1));
-  return new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(d)+" '"+y.slice(2);
+function surplusBadge(income, spending){
+  if(!income||!spending) return {kind:'blue',label:'NEW'};
+  const rate = ((income-spending)/income)*100;
+  if(rate>=15) return {kind:'green',label:'SURPLUS'};
+  if(rate>=5) return {kind:'amber',label:'POSITIVE'};
+  if(rate>=0) return {kind:'amber',label:'THIN'};
+  return {kind:'red',label:'DEFICIT'};
 }
 
-function deltaClass(n){
-  if (n===null||n===undefined||isNaN(n)) return 'flat';
-  return n>0?'up':n<0?'down':'flat';
-}
-
-/* ---------- Badge logic ---------- */
-function savingsBadge(apy, treasury1y, cpi){
-  const realYield = (apy!==null && cpi!==null) ? apy - cpi : null;
-  if (realYield===null) return {kind:'blue', label:'NEW'};
-  if (apy >= treasury1y && realYield > 0) return {kind:'green', label:'STRONG'};
-  if (realYield > 0) return {kind:'amber', label:'POSITIVE REAL'};
-  return {kind:'red', label:'NEGATIVE REAL'};
-}
-
-function mortgageBadge(rate, marketRate){
-  if (rate===null || marketRate===null) return {kind:'blue', label:'NEW'};
-  const diff = rate - marketRate;
-  if (diff < -0.5) return {kind:'green', label:'BELOW MARKET'};
-  if (diff <= 0.25) return {kind:'amber', label:'AT MARKET'};
-  return {kind:'red', label:'ABOVE MARKET'};
-}
-
-/* ---------- Render: Empty state ---------- */
 function renderEmpty(){
-  $('app').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-title">No data yet</div>
-      <div class="empty-text">
-        Upload your first bank and mortgage statements in the Claude project.
-        The extracted data arrives here as a monthly snapshot — no raw statements,
-        no PII, just rates, balances, and the mechanism read.
+  $('app').innerHTML=`<div class="empty-state"><div class="empty-title">No data yet</div><div class="empty-text">Upload your first bank and mortgage statements in the Claude project. The extracted data arrives here as a monthly snapshot — no raw statements, no PII, just rates, balances, and the mechanism read.</div></div>`;
+}
+
+/* ---- Household Economy ---- */
+function renderEconomy(data, prev){
+  const income = data.income?.total;
+  const spending = data.spending?.total;
+  if(!income) return '';
+  const surplus = income - spending;
+  const spendRate = (spending/income)*100;
+  const savingsAmt = data.spending?.categories?.find(c=>c.name==='Savings & Investments')?.amount || 0;
+  const savingsRate = (savingsAmt/income)*100;
+  const debtService = data.debt_service?.total || 0;
+  const debtRatio = debtService>0 ? (debtService/income)*100 : null;
+  const badge = surplusBadge(income, spending);
+  const reads = data.reads || {};
+
+  const prevIncome = prev?.income?.total;
+  const prevSpending = prev?.spending?.total;
+
+  return `
+    <div class="section-head">Household Economy</div>
+    <div class="econ-grid">
+      <div class="econ-cell">
+        <div class="econ-label">Gross Income</div>
+        <div class="econ-value">${fmtDollar(income)}</div>
+        ${prevIncome ? `<div class="econ-sub ${deltaClass(income-prevIncome)}">${fmtDelta(income-prevIncome)} MoM</div>` : ''}
       </div>
+      <div class="econ-cell">
+        <div class="econ-label">Total Outflows</div>
+        <div class="econ-value">${fmtDollar(spending)}</div>
+        ${prevSpending ? `<div class="econ-sub ${deltaClass(spending-prevSpending)}">${fmtDelta(spending-prevSpending)} MoM</div>` : ''}
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">Net Surplus</div>
+        <div class="econ-value ${surplus>=0?'up':'down'}">${fmtDelta(surplus)}</div>
+        <div class="econ-sub">${(100-spendRate).toFixed(1)}% of income retained</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">Spending Rate</div>
+        <div class="econ-value">${spendRate.toFixed(1)}%</div>
+        <div class="econ-sub">outflows / income</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">Savings Rate</div>
+        <div class="econ-value ${savingsRate>=10?'up':'flat'}">${savingsRate.toFixed(1)}%</div>
+        <div class="econ-sub">to investment accounts</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">Debt Service</div>
+        <div class="econ-value">${debtService>0?fmtDollar(debtService):'—'}</div>
+        ${debtRatio!==null ? `<div class="econ-sub">${debtRatio.toFixed(1)}% of income</div>` : ''}
+      </div>
+    </div>
+    <div class="card" style="margin-top:0;">
+      <span class="card-badge badge-${badge.kind}" style="margin-bottom:8px;display:inline-block;">${badge.label}</span>
+      ${readToggleHtml('Mechanism read', reads.economy, 'read-panel-blue')}
     </div>`;
 }
 
-/* ---------- Render: Position cards ---------- */
+/* ---- Position ---- */
 function renderPosition(data, prev){
-  const s = data.savings || {};
-  const m = data.mortgage || {};
-  const ctx = data.macro_context || {};
-  const reads = data.reads || {};
-
-  const sBadge = savingsBadge(s.apy, ctx.treasury_1y, ctx.cpi_yoy);
-  const mBadge = mortgageBadge(m.rate, ctx.mortgage_30y_market);
-  const realYield = (s.apy!==null&&s.apy!==undefined&&ctx.cpi_yoy!==null&&ctx.cpi_yoy!==undefined) ? s.apy - ctx.cpi_yoy : null;
-
-  const prevS = prev?.savings || {};
-  const prevM = prev?.mortgage || {};
+  const s=data.savings||{}, m=data.mortgage||{}, ctx=data.macro_context||{}, reads=data.reads||{};
+  const sBadge=savingsBadge(s.apy,ctx.treasury_1y,ctx.cpi_yoy);
+  const mBadge=mortgageBadge(m.rate,ctx.mortgage_30y_market);
+  const realYield=(s.apy!=null&&ctx.cpi_yoy!=null)?s.apy-ctx.cpi_yoy:null;
+  const prevS=prev?.savings||{}, prevM=prev?.mortgage||{};
 
   return `
     <div class="section-head">Your Position</div>
-
     <div class="card card-accent">
       <div class="card-head">
-        <div class="card-title">Savings</div>
+        <div class="card-title">Checking</div>
         <span class="card-badge badge-${sBadge.kind}">${sBadge.label}</span>
       </div>
       <div class="data-grid">
@@ -266,18 +264,16 @@ function renderPosition(data, prev){
         <div>
           <div class="data-key">Balance</div>
           <div class="data-val">${fmtDollar(s.balance)}</div>
-          ${prev ? `<div class="data-compare ${deltaClass((s.balance||0)-(prevS.balance||0))}">${fmtDelta((s.balance||0)-(prevS.balance||0))} from last month</div>` : ''}
+          ${prev?`<div class="data-compare ${deltaClass((s.balance||0)-(prevS.balance||0))}">${fmtDelta((s.balance||0)-(prevS.balance||0))} from last month</div>`:''}
         </div>
-        ${realYield!==null ? `
-        <div>
+        ${realYield!==null?`<div>
           <div class="data-key">Real Yield</div>
           <div class="data-val ${realYield>=0?'up':'down'}">${fmtPct(realYield)}</div>
           <div class="data-compare">APY minus CPI</div>
-        </div>` : ''}
+        </div>`:''}
       </div>
-      ${reads.savings ? `<div class="read-panel">${reads.savings}</div>` : ''}
+      ${readToggleHtml('Why this matters', reads.savings)}
     </div>
-
     <div class="card card-accent">
       <div class="card-head">
         <div class="card-title">Mortgage</div>
@@ -292,54 +288,38 @@ function renderPosition(data, prev){
         <div>
           <div class="data-key">Principal</div>
           <div class="data-val">${fmtDollar(m.principal)}</div>
-          ${prev ? `<div class="data-compare ${deltaClass((prevM.principal||0)-(m.principal||0))}">${fmtDollar((prevM.principal||0)-(m.principal||0))} paid down</div>` : ''}
+          ${prev?`<div class="data-compare ${deltaClass((prevM.principal||0)-(m.principal||0))}">${fmtDollar((prevM.principal||0)-(m.principal||0))} paid down</div>`:''}
         </div>
       </div>
       <div class="data-grid data-grid-3">
-        <div>
-          <div class="data-key">P&I</div>
-          <div class="data-val data-val-sm">${fmtDollar(m.monthly_pi)}</div>
-        </div>
-        <div>
-          <div class="data-key">Principal</div>
-          <div class="data-val data-val-sm">${fmtDollar(m.principal_portion)}</div>
-        </div>
-        <div>
-          <div class="data-key">Interest</div>
-          <div class="data-val data-val-sm">${fmtDollar(m.interest_portion)}</div>
-        </div>
+        <div><div class="data-key">P&I</div><div class="data-val data-val-sm">${fmtDollar(m.monthly_pi)}</div></div>
+        <div><div class="data-key">Principal</div><div class="data-val data-val-sm">${fmtDollar(m.principal_portion)}</div></div>
+        <div><div class="data-key">Interest</div><div class="data-val data-val-sm">${fmtDollar(m.interest_portion)}</div></div>
       </div>
-      ${m.escrow!==null&&m.escrow!==undefined ? `
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-tertiary);margin-top:2px;">
-        Escrow: ${fmtDollar(m.escrow)}
-      </div>` : ''}
-      ${reads.mortgage ? `<div class="read-panel">${reads.mortgage}</div>` : ''}
+      ${m.escrow!=null?`<div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-tertiary);margin-top:2px;">Escrow: ${fmtDollar(m.escrow)}</div>`:''}
+      ${readToggleHtml('Why this matters', reads.mortgage)}
     </div>`;
 }
 
-/* ---------- Render: Spending ---------- */
+/* ---- Spending ---- */
 function renderSpending(data, prev){
-  const spend = data.spending;
-  if (!spend || !spend.categories || spend.categories.length===0) return '';
+  const spend=data.spending;
+  if(!spend||!spend.categories||spend.categories.length===0) return '';
+  const sorted=[...spend.categories].sort((a,b)=>b.amount-a.amount);
+  const max=sorted[0]?.amount||1;
+  const prevCats=prev?.spending?.categories||[];
+  const prevMap=new Map(prevCats.map(c=>[c.name,c.amount]));
+  const reads=data.reads||{};
 
-  const sorted = [...spend.categories].sort((a,b)=>b.amount-a.amount);
-  const max = sorted[0]?.amount || 1;
-  const prevCats = prev?.spending?.categories || [];
-  const prevMap = new Map(prevCats.map(c=>[c.name, c.amount]));
-  const reads = data.reads || {};
-
-  let rowsHtml = sorted.map((c,i) => {
-    const prevAmt = prevMap.get(c.name);
-    const delta = (prevAmt!==undefined) ? c.amount - prevAmt : null;
-    const deltaPct = (prevAmt && prevAmt>0) ? ((c.amount-prevAmt)/prevAmt)*100 : null;
-    const pct = (c.amount/max)*100;
-    return `
-      <div class="spend-row">
-        <div class="spend-rank">${i+1}</div>
-        <div class="spend-name">${c.name}</div>
-        <div class="spend-amount">${fmtDollar(c.amount)}</div>
-        <div class="spend-delta ${deltaClass(delta)}">${deltaPct!==null?fmtDeltaPct(deltaPct):''}</div>
-      </div>`;
+  let rows=sorted.map((c,i)=>{
+    const pa=prevMap.get(c.name);
+    const dp=(pa&&pa>0)?((c.amount-pa)/pa)*100:null;
+    return `<div class="spend-row">
+      <div class="spend-rank">${i+1}</div>
+      <div class="spend-name">${c.name}</div>
+      <div class="spend-amount">${fmtDollar(c.amount)}</div>
+      <div class="spend-delta ${deltaClass(dp)}">${dp!==null?fmtDeltaPct(dp):''}</div>
+    </div>`;
   }).join('');
 
   return `
@@ -349,57 +329,33 @@ function renderSpending(data, prev){
         <div class="card-title">Monthly Breakdown</div>
         <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;">${fmtDollar(spend.total)}</span>
       </div>
-      ${rowsHtml}
-      ${reads.spending ? `<div class="read-panel" style="margin-top:12px;">${reads.spending}</div>` : ''}
+      ${rows}
+      ${readToggleHtml('Spending synthesis', reads.spending)}
     </div>`;
 }
 
-/* ---------- Render: Macro context ---------- */
+/* ---- Macro ---- */
 function renderMacro(data){
-  const ctx = data.macro_context || {};
-  const reads = data.reads || {};
-
+  const ctx=data.macro_context||{}, reads=data.reads||{};
   return `
     <div class="section-head">Macro Context</div>
     <div class="macro-grid">
-      <div class="macro-cell">
-        <div class="data-key">Fed Funds</div>
-        <div class="data-val" style="color:var(--gold)">${fmtPct(ctx.fed_funds)}</div>
-      </div>
-      <div class="macro-cell">
-        <div class="data-key">1Y TSY</div>
-        <div class="data-val">${fmtPct(ctx.treasury_1y)}</div>
-      </div>
-      <div class="macro-cell">
-        <div class="data-key">10Y TSY</div>
-        <div class="data-val">${fmtPct(ctx.treasury_10y)}</div>
-      </div>
-      <div class="macro-cell">
-        <div class="data-key">30Y Mtg Mkt</div>
-        <div class="data-val">${fmtPct(ctx.mortgage_30y_market)}</div>
-      </div>
-      <div class="macro-cell">
-        <div class="data-key">CPI YoY</div>
-        <div class="data-val">${fmtPct(ctx.cpi_yoy)}</div>
-      </div>
-      <div class="macro-cell">
-        <div class="data-key">H.8 Read</div>
-        <div class="data-val" style="font-size:10px;color:var(--text-secondary)">${ctx.h8_summary || '—'}</div>
-      </div>
+      <div class="macro-cell"><div class="data-key">Fed Funds</div><div class="data-val" style="color:var(--gold)">${fmtPct(ctx.fed_funds)}</div></div>
+      <div class="macro-cell"><div class="data-key">1Y TSY</div><div class="data-val">${fmtPct(ctx.treasury_1y)}</div></div>
+      <div class="macro-cell"><div class="data-key">10Y TSY</div><div class="data-val">${fmtPct(ctx.treasury_10y)}</div></div>
+      <div class="macro-cell"><div class="data-key">30Y Mtg Mkt</div><div class="data-val">${fmtPct(ctx.mortgage_30y_market)}</div></div>
+      <div class="macro-cell"><div class="data-key">CPI YoY</div><div class="data-val">${fmtPct(ctx.cpi_yoy)}</div></div>
+      <div class="macro-cell"><div class="data-key">H.8 Read</div><div class="data-val" style="font-size:10px;color:var(--text-secondary)">${ctx.h8_summary||'—'}</div></div>
     </div>
-    ${reads.macro_connection ? `
-    <div class="card" style="margin-top:10px;">
-      <div class="read-panel" style="margin:0;border-left-color:rgba(96,165,250,0.3);background:rgba(96,165,250,0.04);">
-        ${reads.macro_connection}
-      </div>
-    </div>` : ''}`;
+    ${reads.macro_connection?`<div class="card" style="margin-top:10px;">
+      ${readToggleHtml('Macro connection', reads.macro_connection, 'read-panel-blue')}
+    </div>`:''}`;
 }
 
-/* ---------- Render: Monthly note ---------- */
+/* ---- Monthly Note ---- */
 function renderNote(data){
-  const reads = data.reads || {};
-  if (!reads.monthly_note) return '';
-
+  const reads=data.reads||{};
+  if(!reads.monthly_note) return '';
   return `
     <div class="section-head">Monthly Read</div>
     <div class="note-block">
@@ -407,20 +363,19 @@ function renderNote(data){
     </div>`;
 }
 
-/* ---------- Render: Time series charts ---------- */
-let apyChartInstance = null;
-let principalChartInstance = null;
+/* ---- Charts ---- */
+let charts = {};
+function destroyChart(name){ if(charts[name]){ charts[name].destroy(); delete charts[name]; } }
 
 function renderCharts(allData, months){
-  if (months.length < 2) return '';
-
-  const labels = months.map(fmtMonthShort);
-  const apys = months.map(m => allData[m]?.savings?.apy ?? null);
-  const t1ys = months.map(m => allData[m]?.macro_context?.treasury_1y ?? null);
-  const principals = months.map(m => allData[m]?.mortgage?.principal ?? null);
-
+  if(months.length<2) return '';
+  const labels=months.map(fmtMonthShort);
   return `
     <div class="section-head">Trends</div>
+    <div class="chart-wrap">
+      <div class="chart-title">Income vs Spending</div>
+      <canvas id="income-spend-chart" class="chart-canvas"></canvas>
+    </div>
     <div class="chart-wrap">
       <div class="chart-title">Your APY vs 1Y Treasury</div>
       <canvas id="apy-chart" class="chart-canvas"></canvas>
@@ -432,66 +387,52 @@ function renderCharts(allData, months){
 }
 
 function mountCharts(allData, months){
-  if (months.length < 2) return;
+  if(months.length<2) return;
+  const labels=months.map(fmtMonthShort);
+  const defaults={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.4)',font:{family:"'JetBrains Mono',monospace",size:9},boxWidth:12,padding:10}}},scales:{x:{ticks:{color:'rgba(255,255,255,0.25)',font:{family:"'JetBrains Mono',monospace",size:9}},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'rgba(255,255,255,0.25)',font:{family:"'JetBrains Mono',monospace",size:9}},grid:{color:'rgba(255,255,255,0.04)'}}}};
 
-  const labels = months.map(fmtMonthShort);
-  const apys = months.map(m => allData[m]?.savings?.apy ?? null);
-  const t1ys = months.map(m => allData[m]?.macro_context?.treasury_1y ?? null);
-  const principals = months.map(m => allData[m]?.mortgage?.principal ?? null);
-
-  const chartDefaults = {
-    responsive:true,
-    maintainAspectRatio:false,
-    plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.4)',font:{family:"'JetBrains Mono',monospace",size:9},boxWidth:12,padding:10}}},
-    scales:{
-      x:{ticks:{color:'rgba(255,255,255,0.25)',font:{family:"'JetBrains Mono',monospace",size:9}},grid:{color:'rgba(255,255,255,0.04)'}},
-      y:{ticks:{color:'rgba(255,255,255,0.25)',font:{family:"'JetBrains Mono',monospace",size:9}},grid:{color:'rgba(255,255,255,0.04)'}}
-    }
-  };
-
-  const apyEl = document.getElementById('apy-chart');
-  if (apyEl){
-    if (apyChartInstance) apyChartInstance.destroy();
-    apyChartInstance = new Chart(apyEl, {
-      type:'line',
-      data:{
-        labels,
-        datasets:[
-          {label:'Your APY',data:apys,borderColor:'#c9a54e',backgroundColor:'rgba(201,165,78,0.1)',tension:0.3,pointRadius:3,borderWidth:2},
-          {label:'1Y Treasury',data:t1ys,borderColor:'rgba(255,255,255,0.25)',borderDash:[4,4],tension:0.3,pointRadius:2,borderWidth:1}
-        ]
-      },
-      options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>v.toFixed(1)+'%'}}}}
-    });
+  // Income vs Spending
+  const el0=document.getElementById('income-spend-chart');
+  if(el0){
+    destroyChart('incomeSpend');
+    const incomes=months.map(m=>allData[m]?.income?.total??null);
+    const spends=months.map(m=>allData[m]?.spending?.total??null);
+    charts.incomeSpend=new Chart(el0,{type:'line',data:{labels,datasets:[
+      {label:'Income',data:incomes,borderColor:'#4caf7c',backgroundColor:'rgba(76,175,124,0.08)',fill:true,tension:0.3,pointRadius:3,borderWidth:2},
+      {label:'Spending',data:spends,borderColor:'#cf5c5c',backgroundColor:'rgba(207,92,92,0.08)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
+    ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>'$'+(v/1000).toFixed(1)+'k'}}}}});
   }
 
-  const princEl = document.getElementById('principal-chart');
-  if (princEl){
-    if (principalChartInstance) principalChartInstance.destroy();
-    principalChartInstance = new Chart(princEl, {
-      type:'line',
-      data:{
-        labels,
-        datasets:[
-          {label:'Principal Remaining',data:principals,borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
-        ]
-      },
-      options:{...chartDefaults,scales:{...chartDefaults.scales,y:{...chartDefaults.scales.y,ticks:{...chartDefaults.scales.y.ticks,callback:v=>'$'+(v/1000).toFixed(0)+'k'}}}}
-    });
+  // APY vs 1Y
+  const el1=document.getElementById('apy-chart');
+  if(el1){
+    destroyChart('apy');
+    charts.apy=new Chart(el1,{type:'line',data:{labels,datasets:[
+      {label:'Your APY',data:months.map(m=>allData[m]?.savings?.apy??null),borderColor:'#c9a54e',backgroundColor:'rgba(201,165,78,0.1)',tension:0.3,pointRadius:3,borderWidth:2},
+      {label:'1Y Treasury',data:months.map(m=>allData[m]?.macro_context?.treasury_1y??null),borderColor:'rgba(255,255,255,0.25)',borderDash:[4,4],tension:0.3,pointRadius:2,borderWidth:1}
+    ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>v.toFixed(1)+'%'}}}}});
+  }
+
+  // Principal
+  const el2=document.getElementById('principal-chart');
+  if(el2){
+    destroyChart('principal');
+    charts.principal=new Chart(el2,{type:'line',data:{labels,datasets:[
+      {label:'Principal Remaining',data:months.map(m=>allData[m]?.mortgage?.principal??null),borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
+    ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>'$'+(v/1000).toFixed(0)+'k'}}}}});
   }
 }
 
-/* ---------- Render: Archive ---------- */
-function renderArchive(allData, months, currentMonth, onSelect){
-  const others = months.filter(m=>m!==currentMonth);
-  if (others.length===0) return '';
-
+/* ---- Archive ---- */
+function renderArchive(allData, months, currentMonth){
+  const others=months.filter(m=>m!==currentMonth);
+  if(others.length===0) return '';
   return `
     <div class="section-head">Archive</div>
     <div class="card">
-      ${others.map(m => {
-        const d = allData[m];
-        const preview = d?.reads?.monthly_note?.substring(0,120) || 'No note recorded.';
+      ${others.map(m=>{
+        const d=allData[m];
+        const preview=d?.reads?.monthly_note?.substring(0,120)||'No note recorded.';
         return `<div class="archive-entry" data-month="${m}">
           <div class="archive-month">${fmtMonthLabel(m)}</div>
           <div class="archive-preview">${preview}...</div>
@@ -500,82 +441,46 @@ function renderArchive(allData, months, currentMonth, onSelect){
     </div>`;
 }
 
-/* ---------- Main render ---------- */
+/* ---- Main ---- */
 async function main(){
-  const manifest = await loadManifest();
-
-  if (manifest.length===0){
-    renderEmpty();
-    return;
-  }
-
-  // Load all months
-  const allData = {};
-  for (const m of manifest){
-    allData[m] = await loadMonth(m);
-  }
-
-  const months = [...manifest].sort();
-  let currentIdx = months.length - 1;
+  const manifest=await loadManifest();
+  if(manifest.length===0){ renderEmpty(); return; }
+  const allData={};
+  for(const m of manifest) allData[m]=await loadMonth(m);
+  const months=[...manifest].sort();
+  let currentIdx=months.length-1;
 
   function render(){
-    const currentMonth = months[currentIdx];
-    const data = allData[currentMonth];
-    const prevMonth = currentIdx > 0 ? months[currentIdx-1] : null;
-    const prev = prevMonth ? allData[prevMonth] : null;
+    const cm=months[currentIdx], data=allData[cm];
+    const prevMonth=currentIdx>0?months[currentIdx-1]:null;
+    const prev=prevMonth?allData[prevMonth]:null;
+    if(!data){ $('app').innerHTML=`<div class="empty-state"><div class="empty-title">Data missing for ${fmtMonthLabel(cm)}</div></div>`; return; }
 
-    if (!data){
-      $('app').innerHTML = `<div class="empty-state"><div class="empty-title">Data missing for ${fmtMonthLabel(currentMonth)}</div></div>`;
-      return;
-    }
-
-    let html = '';
-
-    // Month nav
-    html += `<div class="month-nav">
+    let html=`<div class="month-nav">
       <button class="month-btn" id="prev-btn" ${currentIdx===0?'disabled':''}>◀</button>
-      <div class="month-label">${fmtMonthLabel(currentMonth)}</div>
+      <div class="month-label">${fmtMonthLabel(cm)}</div>
       <button class="month-btn" id="next-btn" ${currentIdx===months.length-1?'disabled':''}>▶</button>
     </div>`;
+    if(data.snapshot_date) html+=`<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;">Snapshot: ${data.snapshot_date}</div>`;
 
-    // Snapshot date
-    if (data.snapshot_date){
-      html += `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;">
-        Snapshot: ${data.snapshot_date}
-      </div>`;
-    }
-
-    html += renderPosition(data, prev);
-    html += renderSpending(data, prev);
-    html += renderMacro(data);
-    html += renderNote(data);
-    html += renderCharts(allData, months);
-    html += renderArchive(allData, months, currentMonth);
-
-    $('app').innerHTML = html;
-
-    // Mount charts after DOM update
-    requestAnimationFrame(()=> mountCharts(allData, months));
-
-    // Nav handlers
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    if (prevBtn) prevBtn.onclick = ()=>{ if(currentIdx>0){ currentIdx--; render(); }};
-    if (nextBtn) nextBtn.onclick = ()=>{ if(currentIdx<months.length-1){ currentIdx++; render(); }};
-
-    // Archive click handlers
-    document.querySelectorAll('.archive-entry').forEach(el=>{
-      el.onclick = ()=>{
-        const m = el.dataset.month;
-        const idx = months.indexOf(m);
-        if (idx>=0){ currentIdx=idx; render(); window.scrollTo(0,0); }
-      };
+    html+=renderEconomy(data,prev);
+    html+=renderPosition(data,prev);
+    html+=renderSpending(data,prev);
+    html+=renderMacro(data);
+    html+=renderNote(data);
+    html+=renderCharts(allData,months);
+    html+=renderArchive(allData,months,cm);
+    $('app').innerHTML=html;
+    requestAnimationFrame(()=>mountCharts(allData,months));
+    document.getElementById('prev-btn')?.addEventListener('click',()=>{ if(currentIdx>0){ currentIdx--; render(); }});
+    document.getElementById('next-btn')?.addEventListener('click',()=>{ if(currentIdx<months.length-1){ currentIdx++; render(); }});
+    document.querySelectorAll('.archive-entry').forEach(el=>el.onclick=()=>{
+      const idx=months.indexOf(el.dataset.month);
+      if(idx>=0){ currentIdx=idx; render(); window.scrollTo(0,0); }
     });
   }
-
   render();
 }
-
 main();
 </script>
 </body>

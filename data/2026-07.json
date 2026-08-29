@@ -5,6 +5,12 @@
     "apy": 4.00,
     "balance": 2418
   },
+  "income": {
+    "total": 10058
+  },
+  "debt_service": {
+    "total": 897
+  },
   "mortgage": {
     "rate": 3.75,
     "principal": 111766,
@@ -39,6 +45,7 @@
     ]
   },
   "reads": {
+    "economy": "Your household ran a <strong>$1,274 surplus</strong> in July — 12.7% of income retained. Spending rate of 87.3% means for every dollar earned, 87 cents went out the door. The 10.6% savings rate (investment transfers) is the growth engine — that capital compounds independently of your earned income. Debt service at 8.9% of income ($897/month across Lake Trust, Synchrony, Citibank, Chase) is the rate-sensitive line: if the Fed hikes in September, variable-rate balances cost more immediately. Your mortgage payment is fixed and doesn't move. The forward question is whether income holds steady — July NFP at −23K suggests the labor market is softening, and any disruption to either income stream would compress the surplus quickly at this spending rate.",
     "savings": "Your checking earns <strong>4.00% APY</strong> — nearly matching the 1Y Treasury at 4.05%. With CPI at 3.4%, your real yield is <strong>+0.6%</strong>: purchasing power is growing, barely. Your credit union is doing exactly what the H.8 showed small banks doing in July — paying competitive rates on core deposits to retain relationship money rather than relying on expensive wholesale funding. That 4% rate is the consumer-facing side of the deposit competition story. As long as the Fed holds at 3.50–3.75%, this rate holds. The three hawkish FOMC dissents in July are actually favorable for your APY — if they hike, your variable rate likely moves up. The risk is the other direction: when cuts eventually come, this drops first.",
     "mortgage": "Your <strong>3.75% fixed rate</strong>, locked in September 2019, sits nearly <strong>3 percentage points below</strong> today's ~6.6% market rate. This is one of the most valuable financial positions you hold. Each month, $253 of your $603 P&I goes to principal — building equity at a borrowing cost that would run roughly $615/month in interest alone at current origination rates. Refinancing destroys value here; you hold this rate until maturity or until market rates drop well below 3.75%, which the current Fed posture makes unlikely. The $600 escrow covers property tax, FHA mortgage insurance ($79/month), and hazard insurance. The FHA MIP is a cost you carry for the life of this loan — but at 3.75% vs 6.6%, absorbing the MIP is still the right trade.",
     "spending": "<strong>Groceries ($1,000)</strong> is your top discretionary category — Walmart, Aldi, Kroger, and Meijer drive most of it. Dining runs $480, distributed across frequent fast-food and coffee stops rather than a few large meals. Fuel at $470 reflects elevated gas prices. Your subscription stack at $290 includes Anthropic, Adobe, Amazon Prime, Spotify, Ring, GitHub, and several others. <strong>$986 flowing to investment accounts</strong> (Robinhood + brokerage) represents a 10.6% savings rate against gross deposits — solid capital accumulation. Housing at $1,394 includes the mortgage payment plus Home Depot and lawn care. Other ($2,667) includes <strong>debt service of $897</strong> (Lake Trust $260, Synchrony $500, Citibank $100, Chase $37), ATM cash withdrawals of $824, and Venmo transfers of $345.",
