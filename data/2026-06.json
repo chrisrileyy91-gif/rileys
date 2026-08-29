@@ -1,0 +1,34 @@
+{
+  "month": "2026-06",
+  "snapshot_date": "2026-08-28",
+  "income": {"total": 7469},
+  "debt_service": {"total": 296},
+  "savings": {"apy": 4.00, "balance": 1143},
+  "mortgage": {"rate": 3.75, "principal": 112019, "monthly_pi": 603, "principal_portion": 253, "interest_portion": 350, "escrow": 600},
+  "macro_context": {"fed_funds": 3.63, "treasury_1y": 4.05, "treasury_10y": 4.37, "mortgage_30y_market": 6.50, "cpi_yoy": 3.3, "h8_summary": "H.8 tracking begins. Small-bank funding strongest in dataset. C&I deceleration starting."},
+  "spending": {
+    "total": 9979,
+    "categories": [
+      {"name": "Housing", "amount": 2406},
+      {"name": "Savings & Investments", "amount": 1270},
+      {"name": "Groceries", "amount": 900},
+      {"name": "Transportation", "amount": 750},
+      {"name": "Dining", "amount": 380},
+      {"name": "Utilities", "amount": 470},
+      {"name": "Personal", "amount": 400},
+      {"name": "Subscriptions", "amount": 270},
+      {"name": "Insurance", "amount": 183},
+      {"name": "Entertainment", "amount": 150},
+      {"name": "Healthcare", "amount": 80},
+      {"name": "Other", "amount": 2720}
+    ]
+  },
+  "reads": {
+    "economy": "<strong>Deficit month: -$2,510.</strong> The largest deficit in the dataset, driven by two structural events: two mortgage payments in one statement period ($2,406 vs the normal $1,203) and a Belle Tire purchase ($560). Investment transfers accelerated to $1,270 (RH Brokerage $1,020 + Schwab $250). Liquid balance hit the dataset low at $1,143 — thinnest cushion of any month.",
+    "savings": "Checking APY steady at 4.00%. Real yield +0.7% against CPI at 3.3% — continuing to compress. Balance dropped to $1,143, the lowest level in the dataset.",
+    "mortgage": "Two mortgage payments in one statement — the standard June payment plus a July pre-payment at month-end. Your 3.75% rate now 2.75 points below market (~6.50%). Principal at $112,019.",
+    "spending": "<strong>Top 2 discretionary categories:</strong><br><br><strong>1. Transportation — $750.</strong> Belle Tire ($560) — a one-time auto repair/tire purchase — drove this category to its highest level. Regular fuel at Speedway/Exxon/Marathon runs ~$190. <strong>Without the tire purchase, this drops to normal levels.</strong><br><br><strong>2. Groceries — $900.</strong> Walmart ($564), Sam's Club ($470), Dollar Tree ($63), Meijer ($100). Sam's Club runs ($211 + $177 + $58 + $24) were elevated — bulk buying month.",
+    "macro_connection": "June is where H.8 tracking begins. Small-bank funding was at its strongest — core deposits accreting, borrowings declining, cash at multi-month highs. Your credit union's 4% APY was the consumer expression of that competition for deposits. CPI at 3.3% and rising was starting to compress your real yield.",
+    "monthly_note": "June was the household's deepest deficit month. Two mortgage payments landing in one statement period ($2,406) accounts for half the excess — one was the standard June payment, the other a pre-payment at month-end for July. Belle Tire ($560) was the other major one-off.\n\nInvestment transfers accelerated to $1,270, the highest of any month — $1,020 to RH Brokerage and $250 to Schwab. The household was simultaneously investing aggressively and running its thinnest liquidity cushion ($1,143). That's a high-conviction posture, but it left zero margin for unexpected expenses.\n\nJune is also where the H.8 tracking begins. Small-bank funding was at its peak — the strongest read in the dataset. Your credit union was part of that story, competing for deposits with a 4% checking rate. But with CPI climbing to 3.3%, the real yield on your deposits was quietly compressing from March's +1.2% to +0.7%."
+  }
+}

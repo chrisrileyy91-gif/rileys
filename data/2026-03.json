@@ -1,0 +1,34 @@
+{
+  "month": "2026-03",
+  "snapshot_date": "2026-08-28",
+  "income": {"total": 8573},
+  "debt_service": {"total": 1803},
+  "savings": {"apy": 4.00, "balance": 3151},
+  "mortgage": {"rate": 3.75, "principal": 112774, "monthly_pi": 603, "principal_portion": 251, "interest_portion": 352, "escrow": 600},
+  "macro_context": {"fed_funds": 3.63, "treasury_1y": 3.95, "treasury_10y": 4.25, "mortgage_30y_market": 6.35, "cpi_yoy": 2.8, "h8_summary": "Pre-tracking. Fed holding 3.50–3.75%, 3rd consecutive meeting."},
+  "spending": {
+    "total": 10033,
+    "categories": [
+      {"name": "Housing", "amount": 1289},
+      {"name": "Savings & Investments", "amount": 1300},
+      {"name": "Groceries", "amount": 750},
+      {"name": "Dining", "amount": 550},
+      {"name": "Personal", "amount": 450},
+      {"name": "Transportation", "amount": 420},
+      {"name": "Utilities", "amount": 290},
+      {"name": "Subscriptions", "amount": 270},
+      {"name": "Entertainment", "amount": 270},
+      {"name": "Insurance", "amount": 183},
+      {"name": "Healthcare", "amount": 80},
+      {"name": "Other", "amount": 4181}
+    ]
+  },
+  "reads": {
+    "economy": "<strong>Deficit month: -$1,460.</strong> A $1,505 Lake Trust lump-sum loan payment — the largest single non-mortgage outflow in any statement — drove the shortfall. Two failed mortgage auto-drafts added $66 in overdraft fees. Investment transfers of $1,300 continued on schedule despite the tight month, compressing liquidity from $4,611 to $3,151.",
+    "savings": "Checking APY steady at 4.00%. Real yield above 1% with CPI at 2.8%. Balances drew down across all accounts as the Lake Trust lump payment and investment transfers consumed the cushion.",
+    "mortgage": "Mortgage ran $1,223 this month — $20 above standard, likely a late fee from two failed auto-draft attempts. Your 3.75% fixed rate sits nearly 2.6 points below market (~6.35%). Principal at $112,774.",
+    "spending": "<strong>Top 2 discretionary categories:</strong><br><br><strong>1. Dining — $550.</strong> Elevated by a Lansing road trip (Midtown Brewing, Capital City Grill, Strange Matter Coffee) plus the usual fast-food rotation. <strong>Cutting $100 would have reduced the deficit from -$1,460 to -$1,360.</strong><br><br><strong>2. Groceries — $750.</strong> Lower than later months. Walmart ($312), Meijer ($130), Kroger ($67).",
+    "macro_connection": "Fed held at 3.50–3.75% for the third consecutive meeting. Your 4% checking APY outpaced CPI at 2.8%, delivering the strongest real yield of the dataset at +1.2%.",
+    "monthly_note": "March was the household's tightest month. A $1,505 Lake Trust lump-sum loan payment — the largest single non-mortgage outflow in any statement — drove the deficit. Two failed mortgage auto-drafts from an underfunded secondary savings added $66 in overdraft fees.\n\nThe investment pipeline didn't pause: $1,300 flowed to Schwab and RH Brokerage on schedule. But liquidity thinned from $4,611 to $3,151, and the mortgage funding process showed a structural vulnerability — the secondary savings needs pre-funding before the auto-draft date.\n\nThe lump payment reduced outstanding debt, so the deficit isn't pure consumption. But the combination of debt paydown, investment transfers, and overdraft fees in a single month with $8,573 income pushed the household firmly into deficit territory."
+  }
+}

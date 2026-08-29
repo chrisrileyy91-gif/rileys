@@ -1,0 +1,34 @@
+{
+  "month": "2026-05",
+  "snapshot_date": "2026-08-28",
+  "income": {"total": 7382},
+  "debt_service": {"total": 298},
+  "savings": {"apy": 4.00, "balance": 3653},
+  "mortgage": {"rate": 3.75, "principal": 112271, "monthly_pi": 603, "principal_portion": 252, "interest_portion": 351, "escrow": 600},
+  "macro_context": {"fed_funds": 3.63, "treasury_1y": 4.00, "treasury_10y": 4.35, "mortgage_30y_market": 6.45, "cpi_yoy": 3.2, "h8_summary": "Pre-tracking. C&I growth decelerating from spring highs. PCE revised to 3.6%."},
+  "spending": {
+    "total": 8958,
+    "categories": [
+      {"name": "Housing", "amount": 1423},
+      {"name": "Groceries", "amount": 1000},
+      {"name": "Personal", "amount": 500},
+      {"name": "Savings & Investments", "amount": 500},
+      {"name": "Dining", "amount": 480},
+      {"name": "Utilities", "amount": 525},
+      {"name": "Transportation", "amount": 400},
+      {"name": "Subscriptions", "amount": 275},
+      {"name": "Insurance", "amount": 183},
+      {"name": "Entertainment", "amount": 180},
+      {"name": "Healthcare", "amount": 85},
+      {"name": "Other", "amount": 3407}
+    ]
+  },
+  "reads": {
+    "economy": "<strong>Deficit month: -$1,576.</strong> Income dropped to $7,382 — the lowest in the dataset — with only two Guida paychecks at the lower ~$1,590 rate. Spending held near $9,000 driven by Taylor Dance ($220), elevated groceries, and two DTE payments in one cycle. Liquid balance gave back most of April's gains, dropping from $5,230 to $3,653.",
+    "savings": "Checking APY steady at 4.00%. Real yield narrowing to +0.8% as CPI climbed to 3.2%. The spread between your checking rate and inflation is compressing.",
+    "mortgage": "Standard $1,203 payment. Your 3.75% rate now 2.7 points below market (~6.45%). Principal at $112,271.",
+    "spending": "<strong>Top 2 discretionary categories:</strong><br><br><strong>1. Groceries — $1,000.</strong> Walmart ($805 across in-store and .com), Meijer ($222), Kroger ($39). Walmart.com orders alone ran $755 — the highest concentration at one retailer. <strong>Shifting $200 to Aldi saves ~$50/month.</strong><br><br><strong>2. Dining — $480.</strong> Pias Ristorante ($40+$86=$126), Texas Roadhouse ($55), Buddy's Pizza ($253), Jimmy Johns ($49). Two sit-down meals above $50 drove the total up. <strong>Trimming one sit-down meal saves ~$60.</strong>",
+    "macro_connection": "Fed held at 3.50–3.75% for the fourth meeting. PCE was revised to 3.6% in the June SEP — the beginning of the inflation re-acceleration narrative that would dominate summer. Your real yield on checking began compressing as CPI moved from 2.8% in March toward 3.4% by July.",
+    "monthly_note": "May was the month the income floor showed. Two Guida paychecks at the lower ~$1,590 rate (vs March's $2,980 catch-up check) brought income to $7,382 — the dataset low. Meanwhile, spending held at $8,958 on recurring commitments plus a Taylor Dance payment ($220) and elevated utility costs (two DTE payments in one cycle).\n\nLiquid balance dropped from $5,230 to $3,653, giving back most of April's surplus. The $500 investment transfer continued to Schwab. Debt service stayed at the baseline $298.\n\nThe pattern emerging across March–May: income swings significantly month to month depending on paycheck count and Guida pay amounts, while spending stays in a tighter band around $8,000–9,000. Months with only four paychecks and the lower Guida rate run deficits; months with an extra paycheck run surpluses. The household's fiscal balance is more sensitive to paycheck timing than to spending discipline."
+  }
+}
