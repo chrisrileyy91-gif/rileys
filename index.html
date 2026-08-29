@@ -150,7 +150,7 @@ async function loadMonth(m){
 
 function fmtPct(n,d=2){ return (n===null||n===undefined||isNaN(n))?'—':n.toFixed(d)+'%'; }
 function fmtDollar(n){ return (n===null||n===undefined||isNaN(n))?'—':'$'+Math.round(n).toLocaleString('en-US'); }
-function fmtDelta(n){ if(n===null||n===undefined||isNaN(n)) return ''; const s=n>=0?'+':''; return s+'$'+Math.abs(Math.round(n)).toLocaleString('en-US'); }
+function fmtDelta(n){ if(n===null||n===undefined||isNaN(n)) return ''; const s=n>=0?'+':'-'; return s+'$'+Math.abs(Math.round(n)).toLocaleString('en-US'); }
 function fmtDeltaPct(n){ if(n===null||n===undefined||isNaN(n)) return ''; return (n>=0?'+':'')+n.toFixed(1)+'%'; }
 function fmtMonthLabel(m){ const [y,mo]=m.split('-'); return new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(+y,+mo-1,1))); }
 function fmtMonthShort(m){ const [y,mo]=m.split('-'); return new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(new Date(Date.UTC(+y,+mo-1,1)))+" '"+y.slice(2); }
@@ -165,6 +165,7 @@ function savingsCat(d){ return d?.spending?.categories?.find(c=>c.name==='Saving
 
 /* ---- Section 2: Vitals ---- */
 function renderVitals(allData, months){
+  const rangeLabel = fmtMonthShort(months[0]) + ' – ' + fmtMonthShort(months[months.length-1]) + ' · ' + months.length + ' months';
   const incomes=months.map(m=>allData[m]?.income?.total ?? null);
   const outflows=months.map(m=>allData[m]?.spending?.total ?? null);
   const surpluses=months.map(m=>{
@@ -188,10 +189,11 @@ function renderVitals(allData, months){
     const latest=months[months.length-1];
     const li=allData[latest]?.income?.total, ls=allData[latest]?.spending?.total;
     if(li!=null&&ls!=null){
+      const vsAvg=` <span style="color:var(--text-tertiary);font-family:'JetBrains Mono',monospace;font-size:8px;">vs avg</span>`;
       const latestSurplus=li-ls;
-      surplusArrow=` <span class="trend-arrow ${latestSurplus>=avgSurplus?'up':'down'}">${latestSurplus>=avgSurplus?'↑':'↓'}</span>`;
+      surplusArrow=` <span class="trend-arrow ${latestSurplus>=avgSurplus?'up':'down'}">${latestSurplus>=avgSurplus?'↑':'↓'}</span>${vsAvg}`;
       const latestSpendRate=(ls/li)*100;
-      spendArrow=` <span class="trend-arrow ${latestSpendRate<=spendRate?'up':'down'}">${latestSpendRate<=spendRate?'↓':'↑'}</span>`;
+      spendArrow=` <span class="trend-arrow ${latestSpendRate<=spendRate?'up':'down'}">${latestSpendRate<=spendRate?'↓':'↑'}</span>${vsAvg}`;
     }
   }
 
@@ -210,27 +212,32 @@ function renderVitals(allData, months){
       <div class="econ-cell">
         <div class="econ-label">Avg Monthly Income</div>
         <div class="econ-value">${fmtDollar(avgIncome)}</div>
+        <div class="econ-sub">${rangeLabel}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Avg Monthly Outflows</div>
         <div class="econ-value">${fmtDollar(avgOutflows)}</div>
+        <div class="econ-sub">${rangeLabel}</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Avg Surplus</div>
         <div class="econ-value ${avgSurplus>=0?'up':'down'}">${fmtDelta(avgSurplus)}${surplusArrow}</div>
+        <div class="econ-sub">positive = surplus · negative = deficit</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Spending Rate</div>
-        <div class="econ-value">${spendRate.toFixed(1)}%${spendArrow}</div>
+        <div class="econ-value ${spendRate>100?'down':'up'}">${spendRate.toFixed(1)}%${spendArrow}</div>
+        <div class="econ-sub">below 100% = surplus · above 100% = deficit</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Savings Rate</div>
         <div class="econ-value ${savingsRate>=10?'up':'flat'}">${savingsRate.toFixed(1)}%</div>
+        <div class="econ-sub">to investment accts · target: 15–20%</div>
       </div>
       <div class="econ-cell">
         <div class="econ-label">Debt Service</div>
         <div class="econ-value">${avgDebt>0?fmtDollar(avgDebt):'—'}</div>
-        ${debtRatio!==null?`<div class="econ-sub">${debtRatio.toFixed(1)}% of income</div>`:''}
+        ${debtRatio!==null?`<div class="econ-sub">${debtRatio.toFixed(1)}% of income · target: below 10%</div>`:''}
       </div>
     </div>
     ${posParts.length?`<div class="vitals-position">Current position: ${posParts.join(' · ')}</div>`:''}`;
