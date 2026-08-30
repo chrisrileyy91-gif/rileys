@@ -199,11 +199,14 @@ function renderVitals(allData, months){
       const mr = (allData[m]?.spending?.total || 0) / (allData[m]?.income?.total || 1) * 100;
       return fmtMonthShort(m) + ': <span class="' + (mr <= 100 ? 'up' : 'down') + '">' + mr.toFixed(1) + '%</span><br>';
     }).join('');
-  const savingsRateDetail = rollingLabel + ' · target: 15–20%<br>' +
+  const savingsRateDetail = rollingLabel + ' · target: 15%<br>' +
     rollingMonths.map(m => {
       const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
-      const mr = si / (allData[m]?.income?.total || 1) * 100;
-      return fmtMonthShort(m) + ': <span class="' + (mr >= 15 ? 'up' : mr >= 10 ? 'flat' : 'down') + '">' + mr.toFixed(1) + '%</span><br>';
+      const rate = si / (allData[m]?.income?.total || 1) * 100;
+      const rateRounded = parseFloat(rate.toFixed(1));
+      const cls = rateRounded < 15 ? 'down' : 'up';
+      const label = rateRounded > 15 ? ' — exceeded target' : rateRounded === 15 ? ' — target hit' : ' — target not hit';
+      return fmtMonthShort(m) + ': <span class="' + cls + '">' + rate.toFixed(1) + '%' + label + '</span><br>';
     }).join('');
   const debtServiceDetail = rollingLabel + ' · target: below 10%<br>' +
     rollingMonths.map(m => {
@@ -249,9 +252,9 @@ function renderVitals(allData, months){
         <div class="econ-detail">${spendRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
-        <div class="econ-label">SAVINGS RATE</div>
+        <div class="econ-label">INVESTMENTS</div>
         <div class="econ-value ${rollingSavingsRate >= 15 ? 'up' : rollingSavingsRate >= 10 ? 'flat' : 'down'}">${rollingSavingsRate.toFixed(1) + '%'}</div>
-        <div class="econ-sub">3-month average${rollingSavingsRate >= 15 ? ' · <span class="up">Save</span>' : rollingSavingsRate < 10 ? ' · <span class="down">Trim</span>' : ''}</div>
+        <div class="econ-sub">3-month average · target: 15%</div>
         <div class="econ-detail">${savingsRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
