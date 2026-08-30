@@ -106,7 +106,9 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 .chart-wrap { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; }
 .chart-title { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
-.chart-canvas { width:100%; height:180px; }
+.chart-canvas { width:100%; }
+.chart-container { position:relative; height:180px; width:100%; }
+.chart-container-lg { position:relative; height:220px; width:100%; }
 
 .archive-entry { border-bottom:1px solid var(--border); padding:14px 0; cursor:pointer; }
 .archive-entry:last-child { border-bottom:none; }
@@ -229,13 +231,13 @@ function renderVitals(allData, months){
     <div class="econ-grid">
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING INCOME</div>
-        <div class="econ-value">${fmtDollar(rollingIncome)}</div>
+        <div class="econ-value">${fmtDollar(rollingIncome)} <span class="up" style="font-size:12px;font-weight:600;">IN</span></div>
         <div class="econ-sub">3-month average</div>
         <div class="econ-detail">${incomeDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING OUTFLOWS</div>
-        <div class="econ-value">${fmtDollar(rollingOutflows)}</div>
+        <div class="econ-value">${fmtDollar(rollingOutflows)} <span class="down" style="font-size:12px;font-weight:600;">OUT</span></div>
         <div class="econ-sub">3-month average</div>
         <div class="econ-detail">${outflowsDetail}</div>
       </div>
@@ -275,15 +277,15 @@ function renderCharts(){
     <div class="section-head">Trends</div>
     <div class="chart-wrap">
       <div class="chart-title">Income vs Spending</div>
-      <canvas id="income-spend-chart" class="chart-canvas chart-canvas-lg"></canvas>
+      <div class="chart-container-lg"><canvas id="income-spend-chart" class="chart-canvas chart-canvas-lg"></canvas></div>
     </div>
     <div class="chart-wrap">
       <div class="chart-title">Savings Rate</div>
-      <canvas id="savings-rate-chart" class="chart-canvas"></canvas>
+      <div class="chart-container"><canvas id="savings-rate-chart" class="chart-canvas"></canvas></div>
     </div>
     <div class="chart-wrap">
       <div class="chart-title">Principal Paydown</div>
-      <canvas id="principal-chart" class="chart-canvas"></canvas>
+      <div class="chart-container"><canvas id="principal-chart" class="chart-canvas"></canvas></div>
     </div>`;
 }
 
