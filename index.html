@@ -314,10 +314,6 @@ function renderMortgage(allData, months){
         <div class="econ-value up">${rateSpread ? rateSpread.toFixed(2) + '%' : '—'}</div>
         <div class="econ-sub">${fmtPct(latestMortgage.rate)} locked vs ${fmtPct(marketRate)} market</div>
       </div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">PRINCIPAL PAYDOWN</div>
-      <div class="chart-container"><canvas id="principal-chart" class="chart-canvas"></canvas></div>
     </div>`;
 }
 
@@ -359,15 +355,6 @@ function mountCharts(allData, months){
       {label:'Investments',data:months.map(m=>{ const inc=allData[m]?.income?.total, sav=savingsCat(allData[m]); return (inc&&sav!=null)?(sav/inc)*100:null; }),borderColor:'#c9a54e',backgroundColor:'rgba(201,165,78,0.1)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
     ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>v.toFixed(1)+'%'}}}}});
   }
-
-  // Principal Paydown
-  const el2=document.getElementById('principal-chart');
-  if(el2){
-    charts.principal?.destroy();
-    charts.principal=new Chart(el2,{type:'line',data:{labels,datasets:[
-      {label:'Principal Remaining',data:months.map(m=>allData[m]?.mortgage?.principal??null),borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
-    ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>'$'+(v/1000).toFixed(0)+'k'}}}}});
-  }
 }
 
 /* ---- Section 4: month list ---- */
@@ -394,8 +381,8 @@ async function main(){
 
   let html='';
   html+=renderVitals(allData,months);
-  html+=renderMortgage(allData,months);
   html+=renderCharts();
+  html+=renderMortgage(allData,months);
   html+=renderMonths(allData,months);
   $('app').innerHTML=html;
   requestAnimationFrame(()=>mountCharts(allData,months));
