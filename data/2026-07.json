@@ -17,7 +17,8 @@
     "monthly_pi": 603,
     "principal_portion": 253,
     "interest_portion": 349,
-    "escrow": 600
+    "escrow": 600,
+    "home_value": 204700
   },
   "macro_context": {
     "fed_funds": 3.63,

@@ -275,6 +275,11 @@ function renderMortgage(allData, months){
   const latestMortgage = allData[months[months.length-1]]?.mortgage || {};
   const firstMortgage = allData[months[0]]?.mortgage || {};
   const paidDown = (firstMortgage.principal || 0) - (latestMortgage.principal || 0);
+  const homeValue = latestMortgage.home_value || null;
+  const equity = homeValue ? homeValue - (latestMortgage.principal || 0) : null;
+  const ltv = homeValue ? ((latestMortgage.principal || 0) / homeValue * 100) : null;
+  const marketRate = allData[months[months.length-1]]?.macro_context?.mortgage_30y_market || null;
+  const rateSpread = (marketRate && latestMortgage.rate) ? marketRate - latestMortgage.rate : null;
 
   return `
     <div class="section-head">Mortgage</div>
@@ -298,6 +303,16 @@ function renderMortgage(allData, months){
         <div class="econ-label">ESCROW</div>
         <div class="econ-value">${fmtDollar(latestMortgage.escrow)}</div>
         <div class="econ-sub">taxes · FHA insurance · hazard insurance</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">HOME EQUITY</div>
+        <div class="econ-value up">${equity ? fmtDollar(equity) : '—'}</div>
+        <div class="econ-sub">Zestimate ${fmtDollar(homeValue)} · LTV ${ltv ? ltv.toFixed(0) + '%' : '—'}</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">RATE ADVANTAGE</div>
+        <div class="econ-value up">${rateSpread ? rateSpread.toFixed(2) + '%' : '—'}</div>
+        <div class="econ-sub">${fmtPct(latestMortgage.rate)} locked vs ${fmtPct(marketRate)} market</div>
       </div>
     </div>
     <div class="chart-wrap">
