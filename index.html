@@ -270,6 +270,42 @@ function renderVitals(allData, months){
     ${posParts.length?`<div class="vitals-position">Current position: ${posParts.join(' · ')}</div>`:''}`;
 }
 
+/* ---- Section: Mortgage ---- */
+function renderMortgage(allData, months){
+  const latestMortgage = allData[months[months.length-1]]?.mortgage || {};
+  const firstMortgage = allData[months[0]]?.mortgage || {};
+  const paidDown = (firstMortgage.principal || 0) - (latestMortgage.principal || 0);
+
+  return `
+    <div class="section-head">Mortgage</div>
+    <div class="econ-grid">
+      <div class="econ-cell">
+        <div class="econ-label">PRINCIPAL BALANCE</div>
+        <div class="econ-value">${fmtDollar(latestMortgage.principal)}</div>
+        <div class="econ-sub">from ${fmtDollar(firstMortgage.principal)} · paid down ${fmtDollar(paidDown)}</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">FIXED RATE</div>
+        <div class="econ-value up">${fmtPct(latestMortgage.rate)}</div>
+        <div class="econ-sub">locked Sep 2019</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">MONTHLY P&I</div>
+        <div class="econ-value">${fmtDollar(latestMortgage.monthly_pi)}</div>
+        <div class="econ-sub">${fmtDollar(latestMortgage.principal_portion)} principal · ${fmtDollar(latestMortgage.interest_portion)} interest</div>
+      </div>
+      <div class="econ-cell">
+        <div class="econ-label">ESCROW</div>
+        <div class="econ-value">${fmtDollar(latestMortgage.escrow)}</div>
+        <div class="econ-sub">taxes · FHA insurance · hazard insurance</div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">PRINCIPAL PAYDOWN</div>
+      <div class="chart-container"><canvas id="principal-chart" class="chart-canvas"></canvas></div>
+    </div>`;
+}
+
 /* ---- Section 3: Trend charts ---- */
 let charts = {};
 
@@ -281,12 +317,8 @@ function renderCharts(){
       <div class="chart-container-lg"><canvas id="income-spend-chart" class="chart-canvas chart-canvas-lg"></canvas></div>
     </div>
     <div class="chart-wrap">
-      <div class="chart-title">Savings Rate</div>
+      <div class="chart-title">INVESTMENTS</div>
       <div class="chart-container"><canvas id="savings-rate-chart" class="chart-canvas"></canvas></div>
-    </div>
-    <div class="chart-wrap">
-      <div class="chart-title">Principal Paydown</div>
-      <div class="chart-container"><canvas id="principal-chart" class="chart-canvas"></canvas></div>
     </div>`;
 }
 
@@ -309,7 +341,7 @@ function mountCharts(allData, months){
   if(el1){
     charts.savingsRate?.destroy();
     charts.savingsRate=new Chart(el1,{type:'line',data:{labels,datasets:[
-      {label:'Savings Rate',data:months.map(m=>{ const inc=allData[m]?.income?.total, sav=savingsCat(allData[m]); return (inc&&sav!=null)?(sav/inc)*100:null; }),borderColor:'#c9a54e',backgroundColor:'rgba(201,165,78,0.1)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
+      {label:'Investments',data:months.map(m=>{ const inc=allData[m]?.income?.total, sav=savingsCat(allData[m]); return (inc&&sav!=null)?(sav/inc)*100:null; }),borderColor:'#c9a54e',backgroundColor:'rgba(201,165,78,0.1)',fill:true,tension:0.3,pointRadius:3,borderWidth:2}
     ]},options:{...defaults,scales:{...defaults.scales,y:{...defaults.scales.y,ticks:{...defaults.scales.y.ticks,callback:v=>v.toFixed(1)+'%'}}}}});
   }
 
@@ -347,6 +379,7 @@ async function main(){
 
   let html='';
   html+=renderVitals(allData,months);
+  html+=renderMortgage(allData,months);
   html+=renderCharts();
   html+=renderMonths(allData,months);
   $('app').innerHTML=html;
