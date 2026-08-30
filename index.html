@@ -189,17 +189,17 @@ function renderVitals(allData, months){
     rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDollar(allData[m]?.income?.total || 0) + '<br>').join('');
   const outflowsDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
     rollingMonths.map(m => fmtMonthShort(m) + ': ' + fmtDollar(allData[m]?.spending?.total || 0) + '<br>').join('');
-  const surplusDetail = rollingLabel + ' · ' + rc + '-month avg<br>' +
+  const surplusDetail = 'past 3 months<br>' +
     rollingMonths.map(m => {
       const ms = (allData[m]?.income?.total || 0) - (allData[m]?.spending?.total || 0);
       return fmtMonthShort(m) + ': <span class="' + (ms > 0 ? 'up' : 'down') + '">' + fmtDelta(ms) + '</span><br>';
     }).join('');
-  const spendRateDetail = rollingLabel + '<br>' +
+  const spendRateDetail = 'past 3 months<br>' +
     rollingMonths.map(m => {
       const mr = (allData[m]?.spending?.total || 0) / (allData[m]?.income?.total || 1) * 100;
       return fmtMonthShort(m) + ': <span class="' + (mr <= 100 ? 'up' : 'down') + '">' + mr.toFixed(1) + '%</span><br>';
     }).join('');
-  const savingsRateDetail = rollingLabel + ' · target: 15%<br>' +
+  const savingsRateDetail = 'target: 15-17%<br>' +
     rollingMonths.map(m => {
       const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
       const rate = si / (allData[m]?.income?.total || 1) * 100;
@@ -253,8 +253,8 @@ function renderVitals(allData, months){
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">INVESTMENTS</div>
-        <div class="econ-value ${rollingSavingsRate >= 15 ? 'up' : rollingSavingsRate >= 10 ? 'flat' : 'down'}">${rollingSavingsRate.toFixed(1) + '%'}</div>
-        <div class="econ-sub">3-month average · target: 15%</div>
+        <div class="econ-value ${rollingSavingsRate >= 15 ? 'up' : rollingSavingsRate < 10 ? 'down' : ''}"${rollingSavingsRate >= 10 && rollingSavingsRate < 15 ? ' style="color:var(--gold)"' : ''}>${rollingSavingsRate.toFixed(1) + '%'}</div>
+        <div class="econ-sub">3-month average · target: 15-17%</div>
         <div class="econ-detail">${savingsRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
