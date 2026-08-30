@@ -178,6 +178,7 @@ function renderVitals(allData, months){
   const rollingOutflows = rollingMonths.reduce((s, m) => s + (allData[m]?.spending?.total || 0), 0) / rc;
   const rollingSurplus = rollingIncome - rollingOutflows;
   const rollingSpendRate = (rollingOutflows / rollingIncome) * 100;
+  const weeklyAmount = Math.ceil(Math.abs(rollingSurplus) / 4.33);
   const rollingSavingsRate = rollingMonths.reduce((s, m) => {
     const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
     const inc = allData[m]?.income?.total || 1;
@@ -244,13 +245,13 @@ function renderVitals(allData, months){
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ROLLING SURPLUS</div>
         <div class="econ-value ${rollingSurplus > 0 ? 'up' : 'down'}">${fmtDelta(rollingSurplus)}</div>
-        <div class="econ-sub">3-month average · <span class="${rollingSurplus > 0 ? 'up' : 'down'}">${rollingSurplus > 0 ? 'Save' : 'Trim'}</span></div>
+        <div class="econ-sub">3-month average · ${rollingSurplus > 0 ? '<span class="up">saving $' + weeklyAmount + '/week</span>' : '<span class="down">cut $' + weeklyAmount + '/week to breakeven</span>'}</div>
         <div class="econ-detail">${surplusDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">SPENDING RATE</div>
         <div class="econ-value ${rollingSpendRate <= 100 ? 'up' : 'down'}">${rollingSpendRate.toFixed(1) + '%'}</div>
-        <div class="econ-sub">3-month average · <span class="${rollingSpendRate <= 100 ? 'up' : 'down'}">${rollingSpendRate <= 100 ? 'Save' : 'Trim'}</span></div>
+        <div class="econ-sub">3-month average · ${rollingSpendRate <= 100 ? '<span class="up">saving $' + weeklyAmount + '/week</span>' : '<span class="down">cut $' + weeklyAmount + '/week to breakeven</span>'}</div>
         <div class="econ-detail">${spendRateDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
