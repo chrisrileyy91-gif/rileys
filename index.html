@@ -349,38 +349,64 @@ function renderMortgage(allData, months){
   const marketRate = allData[months[months.length-1]]?.macro_context?.mortgage_30y_market || null;
   const rateSpread = (marketRate && latestMortgage.rate) ? marketRate - latestMortgage.rate : null;
 
+  const origLoan = latestMortgage.original_loan || 130099;
+  const purchasePrice = latestMortgage.purchase_price || origLoan;
+  const totalPaidDown = origLoan - (latestMortgage.principal || 0);
+  const mktRate = allData[months[months.length-1]]?.macro_context?.mortgage_30y_market || 0;
+  const marketMonthlyInterest = Math.round((latestMortgage.principal || 0) * mktRate / 100 / 12);
+  const yourMonthlyInterest = latestMortgage.interest_portion || 0;
+  const monthlySavings = marketMonthlyInterest - yourMonthlyInterest;
+  const annualSavings = monthlySavings * 12;
+  const appreciationAmt = homeValue ? homeValue - purchasePrice : null;
+  const equityPct = homeValue ? Math.round(equity / homeValue * 100) : null;
+  const equityPctFromPI = latestMortgage.monthly_pi ? Math.round((latestMortgage.principal_portion || 0) / latestMortgage.monthly_pi * 100) : null;
+
+  const principalDetail = months.map(m =>
+    fmtMonthShort(m) + ': <span class="up">' + fmtDollar(allData[m]?.mortgage?.principal_portion || 0) + '</span><br>'
+  ).join('') + 'Since origination: <span class="up">' + fmtDollar(totalPaidDown) + ' paid down</span>';
+
+  const taxMo = latestMortgage.escrow_tax_monthly || 0;
+  const fhaMo = latestMortgage.escrow_fha_monthly || 0;
+  const hazardMo = latestMortgage.escrow_hazard_monthly || 0;
+
   return `
     <div class="section-head">Mortgage</div>
     <div class="econ-grid">
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">PRINCIPAL BALANCE</div>
         <div class="econ-value">${fmtDollar(latestMortgage.principal)}</div>
         <div class="econ-sub">from ${fmtDollar(firstMortgage.principal)} · paid down ${fmtDollar(paidDown)}</div>
+        <div class="econ-detail">${principalDetail}</div>
       </div>
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">FIXED RATE</div>
         <div class="econ-value up">${fmtPct(latestMortgage.rate)}</div>
         <div class="econ-sub">locked Sep 2019</div>
+        <div class="econ-detail">Your interest: ${fmtDollar(yourMonthlyInterest)}/month<br>At today's ${fmtPct(mktRate)}: ${fmtDollar(marketMonthlyInterest)}/month<br>You save: <span class="up">${fmtDollar(monthlySavings)}/month · ${fmtDollar(annualSavings)}/year</span></div>
       </div>
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">MONTHLY P&I</div>
         <div class="econ-value">${fmtDollar(latestMortgage.monthly_pi)}</div>
         <div class="econ-sub">${fmtDollar(latestMortgage.principal_portion)} principal · ${fmtDollar(latestMortgage.interest_portion)} interest</div>
+        <div class="econ-detail"><span class="up">${fmtDollar(latestMortgage.principal_portion)}</span> builds equity (${equityPctFromPI}% of P&I)<br>${fmtDollar(yourMonthlyInterest)} to lender (${100 - equityPctFromPI}% of P&I)<br>Equity share rising each month as balance drops.</div>
       </div>
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">ESCROW</div>
         <div class="econ-value">${fmtDollar(latestMortgage.escrow)}</div>
         <div class="econ-sub">taxes · FHA insurance · hazard insurance</div>
+        <div class="econ-detail">Property tax: ~${fmtDollar(taxMo)}/month<br>FHA insurance: ~${fmtDollar(fhaMo)}/month<br>Hazard insurance: ~${fmtDollar(hazardMo)}/month</div>
       </div>
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">HOME EQUITY</div>
         <div class="econ-value up">${equity ? fmtDollar(equity) : '—'}</div>
         <div class="econ-sub">Zestimate ${fmtDollar(homeValue)} · LTV ${ltv ? ltv.toFixed(0) + '%' : '—'}</div>
+        <div class="econ-detail"><span class="up">${fmtDollar(totalPaidDown)}</span> from paydown<br>${appreciationAmt != null ? '<span class="up">' + fmtDollar(appreciationAmt) + '</span> from appreciation<br>' : ''}${equityPct ? equityPct + '% of home value owned outright' : ''}</div>
       </div>
-      <div class="econ-cell">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">RATE ADVANTAGE</div>
         <div class="econ-value up">${rateSpread ? rateSpread.toFixed(2) + '%' : '—'}</div>
         <div class="econ-sub">${fmtPct(latestMortgage.rate)} locked vs ${fmtPct(marketRate)} market</div>
+        <div class="econ-detail"><span class="up">${fmtDollar(monthlySavings)}</span> saved this month vs market rate<br><span class="up">${fmtDollar(annualSavings)}</span> saved per year</div>
       </div>
     </div>`;
 }

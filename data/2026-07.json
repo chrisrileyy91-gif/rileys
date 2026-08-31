@@ -18,7 +18,12 @@
     "principal_portion": 253,
     "interest_portion": 349,
     "escrow": 600,
-    "home_value": 204700
+    "home_value": 204700,
+    "purchase_price": 134818,
+    "original_loan": 130099,
+    "escrow_tax_monthly": 76,
+    "escrow_fha_monthly": 79,
+    "escrow_hazard_monthly": 192
   },
   "macro_context": {
     "fed_funds": 3.63,
