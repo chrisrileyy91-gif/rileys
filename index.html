@@ -366,6 +366,7 @@ function renderMortgage(allData, months){
   const taxMo = latestMortgage.escrow_tax_monthly || 0;
   const fhaMo = latestMortgage.escrow_fha_monthly || 0;
   const hazardMo = latestMortgage.escrow_hazard_monthly || 0;
+  console.log('escrow debug:', latestMortgage.escrow_tax_monthly, latestMortgage.escrow_fha_monthly, latestMortgage.escrow_hazard_monthly);
 
   return `
     <div class="section-head">Mortgage</div>
