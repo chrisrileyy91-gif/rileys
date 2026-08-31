@@ -26,7 +26,9 @@
     "treasury_10y": 4.55,
     "mortgage_30y_market": 6.60,
     "cpi_yoy": 3.4,
-    "h8_summary": "Peak-to-fade. Small-bank funding peaked mid-July, TGA drain active, 3 FOMC dissents for a hike."
+    "h8_summary": "Peak-to-fade. Small-bank funding peaked mid-July, TGA drain active, 3 FOMC dissents for a hike.",
+    "sloos_summary": "C&I unchanged · terms easing · CRE easing modestly",
+    "qra_summary": "Q3: $739B borrowing · $950B TGA target"
   },
   "spending": {
     "total": 8784,

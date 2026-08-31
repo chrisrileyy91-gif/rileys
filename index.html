@@ -357,6 +357,50 @@ function mountCharts(allData, months){
   }
 }
 
+/* ---- Section: macro backdrop ---- */
+function renderMacroBackdrop(allData, months){
+  const latest = allData[months[months.length-1]];
+  const ctx = latest?.macro_context || {};
+  const sav = latest?.savings || {};
+  const mtg = latest?.mortgage || {};
+  const marketRate = ctx.mortgage_30y_market || 0;
+  const realYield = sav.apy != null && ctx.cpi_yoy != null ? sav.apy - ctx.cpi_yoy : null;
+  const rateSpread = mtg.rate && marketRate ? marketRate - mtg.rate : null;
+
+  const cpiStyle = ctx.cpi_yoy < 3 ? 'color:var(--green)' : ctx.cpi_yoy <= 4 ? 'color:var(--amber)' : 'color:var(--red)';
+
+  const badges = [];
+  if(ctx.sloos_summary) badges.push(`<span>SLOOS: ${ctx.sloos_summary}</span>`);
+  if(ctx.qra_summary) badges.push(`<span>QRA: ${ctx.qra_summary}</span>`);
+  const badgeRow = badges.length ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);margin-top:10px;display:flex;gap:12px;flex-wrap:wrap;">${badges.join('')}</div>` : '';
+
+  return `
+    <div class="section-head">Macro Backdrop</div>
+    <div class="econ-grid">
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">FED FUNDS</div>
+        <div class="econ-value" style="color:var(--gold)">${fmtPct(ctx.fed_funds)}</div>
+        <div class="econ-detail">At ${fmtPct(ctx.fed_funds)}. A hike raises variable debt costs but likely pushes your ${fmtPct(sav.apy)} checking APY up.</div>
+      </div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">CPI</div>
+        <div class="econ-value" style="${cpiStyle}">${fmtPct(ctx.cpi_yoy)}</div>
+        <div class="econ-detail">Real yield: ${realYield != null ? fmtPct(realYield) : '—'} (checking ${fmtPct(sav.apy)} minus CPI). ${realYield != null && realYield > 0 ? 'Positive — purchasing power growing.' : 'Negative — inflation eroding deposits.'}</div>
+      </div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">10Y TREASURY</div>
+        <div class="econ-value">${fmtPct(ctx.treasury_10y)}</div>
+        <div class="econ-detail">Drives mortgage pricing. Your ${fmtPct(mtg.rate)} locked ${rateSpread ? rateSpread.toFixed(1) + '%' : '—'} below market. Every rise widens your advantage.</div>
+      </div>
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">H.8 BANKING</div>
+        <div class="econ-value" style="font-size:11px">${ctx.h8_summary || '—'}</div>
+        <div class="econ-detail">${latest?.reads?.macro_connection || 'No macro read for this month.'}</div>
+      </div>
+    </div>
+    ${badgeRow}`;
+}
+
 /* ---- Section 4: month list ---- */
 function renderMonths(allData, months){
   const rows=[...months].reverse().map(m=>{
@@ -383,6 +427,7 @@ async function main(){
   html+=renderVitals(allData,months);
   html+=renderCharts();
   html+=renderMortgage(allData,months);
+  html+=renderMacroBackdrop(allData,months);
   html+=renderMonths(allData,months);
   $('app').innerHTML=html;
   requestAnimationFrame(()=>mountCharts(allData,months));
