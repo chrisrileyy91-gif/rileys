@@ -119,6 +119,13 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .empty-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; margin-bottom:12px; }
 .empty-text { font-size:13px; color:var(--text-secondary); line-height:1.7; max-width:360px; margin:0 auto; }
 
+.signal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 10px; }
+.signal-badge { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 4px; display: inline-block; margin-bottom: 14px; }
+.signal-badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(207,92,92,0.35); }
+.signal-badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(232,168,56,0.35); }
+.signal-badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(76,175,124,0.35); }
+.signal-text { font-size: 13px; line-height: 1.75; color: var(--text-secondary); }
+
 .up { color:var(--green); }
 .down { color:var(--red); }
 .flat { color:var(--text-tertiary); }
@@ -268,6 +275,67 @@ function renderVitals(allData, months){
       </div>
     </div>
     ${posParts.length?`<div class="vitals-position">Current position: ${posParts.join(' · ')}</div>`:''}`;
+}
+
+/* ---- Section: no fed speak ---- */
+function renderNoFedSpeak(allData, months){
+  const rollingMonths = months.slice(-3);
+  const rc = rollingMonths.length;
+  const rollingIncome = rollingMonths.reduce((s, m) => s + (allData[m]?.income?.total || 0), 0) / rc;
+  const rollingOutflows = rollingMonths.reduce((s, m) => s + (allData[m]?.spending?.total || 0), 0) / rc;
+  const rollingSurplus = rollingIncome - rollingOutflows;
+  const weeklyAmount = Math.ceil(Math.abs(rollingSurplus) / 4.33);
+
+  const latest = allData[months[months.length - 1]];
+  const mtg = latest?.mortgage || {};
+  const sav = latest?.savings || {};
+  const ctx = latest?.macro_context || {};
+  const homeValue = mtg.home_value || 0;
+  const equity = homeValue ? homeValue - (mtg.principal || 0) : null;
+  const equityK = equity ? Math.round(equity / 1000) : null;
+  const rateSpread = (ctx.mortgage_30y_market && mtg.rate) ? ctx.mortgage_30y_market - mtg.rate : null;
+  const realYield = (sav.apy != null && ctx.cpi_yoy != null) ? sav.apy - ctx.cpi_yoy : null;
+  const rollingSavingsRate = rollingMonths.reduce((s, m) => {
+    const si = allData[m]?.spending?.categories?.find(c => c.name === 'Savings & Investments')?.amount || 0;
+    const inc = allData[m]?.income?.total || 1;
+    return s + (si / inc) * 100;
+  }, 0) / rc;
+
+  let signal, badgeClass, prose;
+  if (rollingSurplus > 100) {
+    signal = 'COMPOUND';
+    badgeClass = 'signal-badge-green';
+    prose = "You're saving $" + weeklyAmount + "/week above breakeven.";
+    if (equityK) prose += " Home equity at $" + equityK + "K,";
+    if (rateSpread) prose += " mortgage locked " + rateSpread.toFixed(1) + "% below market,";
+    prose += " investments at " + rollingSavingsRate.toFixed(0) + "% of income.";
+    if (realYield > 0) prose += " Real yield positive at +" + realYield.toFixed(1) + "%.";
+    prose += " Every dollar above breakeven compounds. Keep the pace — you've built the foundation, now let it work.";
+  } else if (rollingSurplus >= -100 && rollingSurplus <= 100) {
+    signal = 'HOLD';
+    badgeClass = 'signal-badge-amber';
+    prose = "You're at the breakeven line — spending roughly matches income.";
+    if (equityK) prose += " Home equity at $" + equityK + "K,";
+    if (rateSpread) prose += " mortgage locked " + rateSpread.toFixed(1) + "% below market.";
+    prose += " The position is stable but not growing. A small push — $" + weeklyAmount + "/week in either direction — flips the signal. You're closer than you think.";
+  } else {
+    signal = 'TIGHTEN';
+    badgeClass = 'signal-badge-red';
+    prose = "You're spending $" + weeklyAmount + "/week more than you earn. But the foundation is solid";
+    if (equityK) prose += " — $" + equityK + "K in home equity";
+    if (rateSpread) prose += ", a mortgage locked " + rateSpread.toFixed(1) + "% below market";
+    prose += ", and " + rollingSavingsRate.toFixed(0) + "% of income flowing to investments.";
+    prose += " The fix isn't structural, it's discretionary.";
+    if (realYield > 0) prose += " Your checking beats inflation at +" + realYield.toFixed(1) + "%.";
+    prose += " Your mortgage is insulated from rate moves, and your equity is growing. Tighten the weekly spend and the surplus flips green. You've built a position most households would envy — now it's about tightening the screws and letting it compound.";
+  }
+
+  return `
+    <div class="section-head">No Fed Speak</div>
+    <div class="signal-card">
+      <div class="signal-badge ${badgeClass}">${signal}</div>
+      <div class="signal-text">${prose}</div>
+    </div>`;
 }
 
 /* ---- Section: Mortgage ---- */
@@ -425,6 +493,7 @@ async function main(){
 
   let html='';
   html+=renderVitals(allData,months);
+  html+=renderNoFedSpeak(allData,months);
   html+=renderCharts();
   html+=renderMortgage(allData,months);
   html+=renderMacroBackdrop(allData,months);
