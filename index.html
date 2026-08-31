@@ -341,8 +341,6 @@ function renderNoFedSpeak(allData, months){
 /* ---- Section: Mortgage ---- */
 function renderMortgage(allData, months){
   const latestMortgage = allData[months[months.length-1]]?.mortgage || {};
-  const firstMortgage = allData[months[0]]?.mortgage || {};
-  const paidDown = (firstMortgage.principal || 0) - (latestMortgage.principal || 0);
   const homeValue = latestMortgage.home_value || null;
   const equity = homeValue ? homeValue - (latestMortgage.principal || 0) : null;
   const ltv = homeValue ? ((latestMortgage.principal || 0) / homeValue * 100) : null;
@@ -375,7 +373,7 @@ function renderMortgage(allData, months){
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">PRINCIPAL BALANCE</div>
         <div class="econ-value">${fmtDollar(latestMortgage.principal)}</div>
-        <div class="econ-sub">from ${fmtDollar(firstMortgage.principal)} · paid down ${fmtDollar(paidDown)}</div>
+        <div class="econ-sub">from ${fmtDollar(origLoan)} · paid down ${fmtDollar(totalPaidDown)}</div>
         <div class="econ-detail">${principalDetail}</div>
       </div>
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
