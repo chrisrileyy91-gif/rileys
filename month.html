@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>rileys</title>
+<title>RILEY RESERVE</title>
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="icon" href="assets/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .read-panel strong { color:var(--text-primary); font-weight:500; }
 .read-panel-blue { border-left-color:rgba(96,165,250,0.3); background:rgba(96,165,250,0.04); }
 
-/* Household economy */
+/* Fiscal report */
 .econ-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
 .econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; }
 .econ-cell-wide { grid-column:1 / -1; }
@@ -123,7 +123,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 </head>
 <body>
 <div class="header">
-  <div class="header-title">rileys</div>
+  <div class="header-title">RILEY RESERVE</div>
 </div>
 <div class="header-sub" id="month-subtitle"></div>
 <div id="app"></div>
@@ -183,8 +183,8 @@ function renderEmpty(){
   $('app').innerHTML=`<div class="empty-state"><div class="empty-title">No data yet</div><div class="empty-text">Upload your first bank and mortgage statements in the Claude project. The extracted data arrives here as a monthly snapshot — no raw statements, no PII, just rates, balances, and the mechanism read.</div></div>`;
 }
 
-/* ---- Household Economy ---- */
-function renderEconomy(data, prev){
+/* ---- Monthly Fiscal Report ---- */
+function renderEconomy(data, prev, monthName){
   const income = data.income?.total;
   const spending = data.spending?.total;
   if(!income) return '';
@@ -201,7 +201,7 @@ function renderEconomy(data, prev){
   const prevSpending = prev?.spending?.total;
 
   return `
-    <div class="section-head">Household Economy</div>
+    <div class="section-head">Monthly Fiscal Report for ${monthName}</div>
     <div class="econ-grid">
       <div class="econ-cell">
         <div class="econ-label">Gross Income</div>
@@ -462,14 +462,16 @@ async function main(){
   }
 
   const cm=months[targetIdx], data=allData[cm];
+  const [cmY,cmM]=cm.split('-');
+  const monthName=new Intl.DateTimeFormat('en-US',{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(+cmY,+cmM-1,1)));
   const prevMonth=targetIdx>0?months[targetIdx-1]:null;
   const prev=prevMonth?allData[prevMonth]:null;
   if(!data){ $('app').innerHTML=`<div class="empty-state"><div class="empty-title">Data missing for ${fmtMonthLabel(cm)}</div></div>`; return; }
 
-  let html=`<a href="index.html" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-tertiary);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-bottom:20px;">◀ Overview</a>`;
-  if(data.snapshot_date) html+=`<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;">Snapshot: ${data.snapshot_date}</div>`;
+  let html=`<a href="index.html" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-tertiary);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-bottom:20px;">◀ DRPC Overview</a>`;
+  if(data.snapshot_date) html+=`<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;">Report Date: ${data.snapshot_date}</div>`;
 
-  html+=renderEconomy(data,prev);
+  html+=renderEconomy(data,prev,monthName);
   html+=renderPosition(data,prev);
   html+=renderSpending(data,prev);
   html+=renderMacro(data);
