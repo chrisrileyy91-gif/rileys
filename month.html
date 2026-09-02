@@ -335,8 +335,18 @@ function renderSpending(data, prev){
 }
 
 /* ---- Macro ---- */
+function regimeBadgeClass(regime){ return regime==='flush'?'badge-green':regime==='stressed'?'badge-red':'badge-amber'; }
+
 function renderMacro(data){
   const ctx=data.macro_context||{}, reads=data.reads||{};
+  const sbc=ctx.small_bank_credit;
+  const bankCell = sbc
+    ? `<div class="macro-cell">
+         <div class="data-key">Small Bank Credit</div>
+         <div class="data-val" style="font-size:10px;"><span class="card-badge ${regimeBadgeClass(sbc.regime)}">${sbc.regime ? sbc.regime.charAt(0).toUpperCase()+sbc.regime.slice(1) : '—'}</span></div>
+         ${sbc.summary ? `<div style="font-size:9px;color:var(--text-secondary);line-height:1.4;margin-top:4px;">${sbc.summary}</div>` : ''}
+       </div>`
+    : `<div class="macro-cell"><div class="data-key">H.8 Read</div><div class="data-val" style="font-size:10px;color:var(--text-secondary)">${ctx.h8_summary||'—'}</div></div>`;
   return `
     <div class="section-head">Macro Context</div>
     <div class="macro-grid">
@@ -345,7 +355,7 @@ function renderMacro(data){
       <div class="macro-cell"><div class="data-key">10Y TSY</div><div class="data-val">${fmtPct(ctx.treasury_10y)}</div></div>
       <div class="macro-cell"><div class="data-key">30Y Mtg Mkt</div><div class="data-val">${fmtPct(ctx.mortgage_30y_market)}</div></div>
       <div class="macro-cell"><div class="data-key">CPI YoY</div><div class="data-val">${fmtPct(ctx.cpi_yoy)}</div></div>
-      <div class="macro-cell"><div class="data-key">H.8 Read</div><div class="data-val" style="font-size:10px;color:var(--text-secondary)">${ctx.h8_summary||'—'}</div></div>
+      ${bankCell}
     </div>
     ${reads.macro_connection?`<div class="card" style="margin-top:10px;">
       ${readToggleHtml('Macro connection', reads.macro_connection, 'read-panel-blue')}

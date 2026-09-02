@@ -32,6 +32,14 @@
     "mortgage_30y_market": 6.60,
     "cpi_yoy": 3.4,
     "h8_summary": "Peak-to-fade. Small-bank funding peaked mid-July, TGA drain active, 3 FOMC dissents for a hike.",
+    "small_bank_credit": {
+      "regime": "fading",
+      "reserves_b": 487,
+      "delta_b": -22,
+      "updated": "2026-07-31",
+      "summary": "Reserves thinned from $509B as TGA drain hit small-bank cushions through July.",
+      "detail": "Your credit union sits in the small-bank tier the H.8 tracks weekly. Through July, that tier's funding health went from 'strongest in the dataset' to 'adequate but starting to fade.' Core deposits accreted while CDs declined — institutions like yours paying competitive checking rates to keep relationship money. Your 4% APY is that story, in your statement.\n\nThe TGA reserve drain starting late July thinned small-bank cash cushions from $509B to $487B; your credit union's reserves thinned with the system. Your 3.75% mortgage, meanwhile, is entirely insulated from current rate movements — locked and getting more valuable every time market rates rise."
+    },
     "sloos_summary": "C&I unchanged · terms easing · CRE easing modestly",
     "qra_summary": "Q3: $739B borrowing · $950B TGA target"
   },

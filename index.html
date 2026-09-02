@@ -86,6 +86,8 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .econ-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); margin-top:2px; }
 .econ-detail { display:none; margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-secondary); line-height:1.6; }
 .econ-detail.open { display:block; }
+.econ-detail p { margin-bottom:8px; }
+.econ-detail p:last-child { margin-bottom:0; }
 
 .spend-row { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
 .spend-row:last-child { border-bottom:none; }
@@ -469,6 +471,52 @@ function mountCharts(allData, months){
   }
 }
 
+/* ---- Small Bank Credit Conditions card (replaces H.8 Banking when data present) ---- */
+function fmtUpdatedDate(iso){
+  if(!iso) return '';
+  const parts = String(iso).split('-').map(Number);
+  if(parts.length < 3 || parts.some(isNaN)) return '';
+  const [y,mo,d] = parts;
+  const mon = new Intl.DateTimeFormat('en-US',{month:'short',timeZone:'UTC'}).format(new Date(Date.UTC(y,mo-1,d)));
+  return 'Updated ' + mon + ' ' + d;
+}
+
+const SBC_REGIMES = {
+  flush:    { kind:'green', color:'var(--green)' },
+  fading:   { kind:'amber', color:'var(--amber)' },
+  stressed: { kind:'red',   color:'var(--red)' }
+};
+
+function renderSmallBankCreditCell(sbc){
+  const reg = SBC_REGIMES[sbc.regime] || SBC_REGIMES.fading;
+  const regimeLabel = sbc.regime ? sbc.regime.charAt(0).toUpperCase() + sbc.regime.slice(1) : '—';
+  const anchor = sbc.reserves_b != null ? '$' + sbc.reserves_b + 'B' : '—';
+  const dv = sbc.delta_b;
+  let deltaStr = '';
+  if(dv != null && !isNaN(dv)){
+    const arrow = dv < 0 ? '↓' : dv > 0 ? '↑' : '→';
+    const sign = dv < 0 ? '−' : dv > 0 ? '+' : '';
+    deltaStr = `<span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:${reg.color};margin-left:5px;">${arrow} ${sign}$${Math.abs(dv)}B</span>`;
+  }
+  const detail = sbc.detail
+    ? sbc.detail.split('\n\n').map(p => '<p>' + p + '</p>').join('')
+    : 'No detail recorded.';
+  const updated = fmtUpdatedDate(sbc.updated);
+  return `
+      <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
+        <div class="econ-label">SMALL BANK CREDIT CONDITIONS</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-top:4px;">
+          <div style="font-family:'JetBrains Mono',monospace;">
+            <span style="font-size:20px;font-weight:700;color:var(--text-primary);">${anchor}</span>${deltaStr}
+          </div>
+          <span class="card-badge badge-${reg.kind}">${regimeLabel}</span>
+        </div>
+        ${sbc.summary ? `<div style="font-size:11px;color:var(--text-secondary);line-height:1.5;margin-top:6px;">${sbc.summary}</div>` : ''}
+        ${updated ? `<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);text-align:right;margin-top:4px;">${updated}</div>` : ''}
+        <div class="econ-detail">${detail}</div>
+      </div>`;
+}
+
 /* ---- Section: macro backdrop ---- */
 function renderMacroBackdrop(allData, months, liveCtx){
   const latest = allData[months[months.length-1]];
@@ -504,11 +552,12 @@ function renderMacroBackdrop(allData, months, liveCtx){
         <div class="econ-value">${fmtPct(ctx.treasury_10y)}</div>
         <div class="econ-detail">Drives mortgage pricing. Your ${fmtPct(mtg.rate)} locked ${rateSpread ? rateSpread.toFixed(1) + '%' : '—'} below market. Every rise widens your advantage.</div>
       </div>
+      ${ctx.small_bank_credit ? renderSmallBankCreditCell(ctx.small_bank_credit) : `
       <div class="econ-cell" onclick="this.querySelector('.econ-detail').classList.toggle('open')">
         <div class="econ-label">H.8 BANKING</div>
         <div class="econ-value" style="font-size:11px">${ctx.h8_summary || '—'}</div>
         <div class="econ-detail">${latest?.reads?.macro_connection || 'No macro read for this month.'}</div>
-      </div>
+      </div>`}
     </div>
     ${badgeRow}`;
 }
