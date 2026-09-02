@@ -160,6 +160,24 @@ async function loadMonth(m){
   try { const r = await fetch(`data/${m}.json`); if(!r.ok) return null; return await r.json(); } catch { return null; }
 }
 
+const DASHBOARD_RATES_URL = 'https://chrisrileyy91-gif.github.io/the-dashboard/dashboard_state/rates.json';
+
+async function loadLiveMacro(){
+  try {
+    const r = await fetch(DASHBOARD_RATES_URL);
+    if(!r.ok) return null;
+    const d = await r.json();
+    const t10 = d.treasury_10y?.yield_pct;
+    const m30 = d.mortgage_30y?.rate_pct;
+    const ff = d.fed?.rate;
+    if(t10 == null && m30 == null && ff == null) return null;
+    return { treasury_10y: t10, mortgage_30y: m30, fed_funds: ff };
+  } catch {
+    console.warn('Live macro fetch failed — using snapshot values');
+    return null;
+  }
+}
+
 function fmtPct(n,d=2){ return (n===null||n===undefined||isNaN(n))?'—':n.toFixed(d)+'%'; }
 function fmtDollar(n){ return (n===null||n===undefined||isNaN(n))?'—':'$'+Math.round(n).toLocaleString('en-US'); }
 function fmtDelta(n){ if(n===null||n===undefined||isNaN(n)) return ''; const s=n>=0?'+':'-'; return s+'$'+Math.abs(Math.round(n)).toLocaleString('en-US'); }
@@ -279,7 +297,7 @@ function renderVitals(allData, months){
 }
 
 /* ---- Section: no fed speak ---- */
-function renderNoFedSpeak(allData, months){
+function renderNoFedSpeak(allData, months, liveCtx){
   const rollingMonths = months.slice(-3);
   const rc = rollingMonths.length;
   const rollingIncome = rollingMonths.reduce((s, m) => s + (allData[m]?.income?.total || 0), 0) / rc;
@@ -290,7 +308,7 @@ function renderNoFedSpeak(allData, months){
   const latest = allData[months[months.length - 1]];
   const mtg = latest?.mortgage || {};
   const sav = latest?.savings || {};
-  const ctx = latest?.macro_context || {};
+  const ctx = liveCtx || latest?.macro_context || {};
   const homeValue = mtg.home_value || 0;
   const equity = homeValue ? homeValue - (mtg.principal || 0) : null;
   const equityK = equity ? Math.round(equity / 1000) : null;
@@ -340,18 +358,19 @@ function renderNoFedSpeak(allData, months){
 }
 
 /* ---- Section: Mortgage ---- */
-function renderMortgage(allData, months){
+function renderMortgage(allData, months, liveCtx){
   const latestMortgage = allData[months[months.length-1]]?.mortgage || {};
+  const ctx = liveCtx || allData[months[months.length-1]]?.macro_context || {};
   const homeValue = latestMortgage.home_value || null;
   const equity = homeValue ? homeValue - (latestMortgage.principal || 0) : null;
   const ltv = homeValue ? ((latestMortgage.principal || 0) / homeValue * 100) : null;
-  const marketRate = allData[months[months.length-1]]?.macro_context?.mortgage_30y_market || null;
+  const marketRate = ctx.mortgage_30y_market || null;
   const rateSpread = (marketRate && latestMortgage.rate) ? marketRate - latestMortgage.rate : null;
 
   const origLoan = latestMortgage.original_loan || 130099;
   const purchasePrice = latestMortgage.purchase_price || origLoan;
   const totalPaidDown = origLoan - (latestMortgage.principal || 0);
-  const mktRate = allData[months[months.length-1]]?.macro_context?.mortgage_30y_market || 0;
+  const mktRate = ctx.mortgage_30y_market || 0;
   const marketMonthlyInterest = Math.round((latestMortgage.principal || 0) * mktRate / 100 / 12);
   const yourMonthlyInterest = latestMortgage.interest_portion || 0;
   const monthlySavings = marketMonthlyInterest - yourMonthlyInterest;
@@ -451,9 +470,9 @@ function mountCharts(allData, months){
 }
 
 /* ---- Section: macro backdrop ---- */
-function renderMacroBackdrop(allData, months){
+function renderMacroBackdrop(allData, months, liveCtx){
   const latest = allData[months[months.length-1]];
-  const ctx = latest?.macro_context || {};
+  const ctx = liveCtx || latest?.macro_context || {};
   const sav = latest?.savings || {};
   const mtg = latest?.mortgage || {};
   const marketRate = ctx.mortgage_30y_market || 0;
@@ -510,18 +529,31 @@ function renderMonths(allData, months){
 
 /* ---- Main ---- */
 async function main(){
-  const manifest=await loadManifest();
+  // Fire the live macro fetch in parallel with the manifest load — it must not
+  // add latency on top of the existing waterfall.
+  const [manifest, liveMacro] = await Promise.all([loadManifest(), loadLiveMacro()]);
   if(manifest.length===0){ renderEmpty(); return; }
   const allData={};
   for(const m of manifest) allData[m]=await loadMonth(m);
   const months=[...manifest].sort();
 
+  // Merge live values into a COPY of the latest snapshot's macro_context.
+  // Never mutate allData or the snapshot objects — charts/time-series read them later.
+  const latest = allData[months[months.length-1]];
+  const snapshotCtx = latest?.macro_context || {};
+  const liveCtx = { ...snapshotCtx };
+  if(liveMacro){
+    if(liveMacro.treasury_10y != null) liveCtx.treasury_10y = liveMacro.treasury_10y;
+    if(liveMacro.mortgage_30y != null) liveCtx.mortgage_30y_market = liveMacro.mortgage_30y;
+    if(liveMacro.fed_funds != null) liveCtx.fed_funds = liveMacro.fed_funds;
+  }
+
   let html='';
   html+=renderVitals(allData,months);
-  html+=renderNoFedSpeak(allData,months);
+  html+=renderNoFedSpeak(allData,months,liveCtx);
   html+=renderCharts();
-  html+=renderMortgage(allData,months);
-  html+=renderMacroBackdrop(allData,months);
+  html+=renderMortgage(allData,months,liveCtx);
+  html+=renderMacroBackdrop(allData,months,liveCtx);
   html+=renderMonths(allData,months);
   $('app').innerHTML=html;
   requestAnimationFrame(()=>mountCharts(allData,months));
