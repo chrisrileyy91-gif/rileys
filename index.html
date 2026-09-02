@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#09090f">
 <title>RILEY RESERVE</title>
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="icon" href="assets/favicon.ico">
@@ -29,8 +30,8 @@
   --blue: #60a5fa;
   --blue-dim: rgba(96,165,250,0.14);
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html { background:var(--bg); color:var(--text-primary); font-family:'Inter',system-ui,sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { background:var(--bg); color:var(--text-primary); font-family:'Inter',system-ui,sans-serif; font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
 body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 .header { padding:20px 0 16px; border-bottom:1px solid var(--border); margin-bottom:20px; }
@@ -39,12 +40,12 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 .month-nav { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
 .month-label { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; flex:1; }
-.month-btn { background:var(--surface); border:1px solid var(--border); color:var(--text-secondary); border-radius:6px; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:11px; cursor:pointer; transition:all 0.15s; }
+.month-btn { background:var(--surface); border:1px solid var(--border); color:var(--text-secondary); border-radius:6px; padding:12px 16px; font-family:'JetBrains Mono',monospace; font-size:11px; cursor:pointer; transition:all 0.15s; }
 .month-btn:hover { background:var(--surface-hover); color:var(--text-primary); }
 .month-btn:disabled { opacity:0.25; cursor:default; }
 .month-btn:disabled:hover { background:var(--surface); color:var(--text-secondary); }
 
-.section-head { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:var(--text-primary); margin:28px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.section-head { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:var(--text-primary); margin:28px 0 12px; margin-top:20px; padding-bottom:6px; border-bottom:1px solid var(--border); }
 .section-head:first-of-type { margin-top:0; }
 
 .card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
@@ -78,7 +79,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 /* Household economy */
 .econ-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
-.econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; cursor:pointer; transition:background 0.15s; }
+.econ-cell { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:12px; cursor:pointer; transition:background 0.15s; min-height:44px; }
 .econ-cell:hover { background:var(--surface-hover); }
 .econ-cell-wide { grid-column:1 / -1; }
 .econ-label { font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.5px; }
@@ -98,7 +99,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 
 .macro-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; }
 .macro-cell { background:var(--surface); border-radius:6px; padding:8px 10px; text-align:center; }
-.macro-cell .data-key { font-size:8px; }
+.macro-cell .data-key { font-size:10px; }
 .macro-cell .data-val { font-size:13px; }
 
 .note-block { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; margin-top:12px; }
@@ -132,7 +133,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 .down { color:var(--red); }
 .flat { color:var(--text-tertiary); }
 .hidden { display:none; }
-.footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--text-tertiary); text-align:center; letter-spacing:0.3px; }
+.footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-tertiary); text-align:center; letter-spacing:0.3px; }
 
 /* Overview page additions */
 .chart-canvas-lg { height:220px; }
@@ -147,7 +148,7 @@ body { max-width:520px; margin:0 auto; padding:16px 16px 80px; }
 <div class="header">
   <div class="header-title">RILEY RESERVE</div>
   <div class="header-sub">DOMESTIC FISCAL OPERATIONS</div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-tertiary);letter-spacing:0.3px;margin-top:4px;">DRPC Members: Chris, Becca, Leslie, Charlie</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-tertiary);letter-spacing:0.3px;margin-top:4px;">DRPC Members: Chris, Becca, Leslie, Charlie</div>
 </div>
 <div id="app"></div>
 <div class="footer">Meridian Builds · Research Side of the Wall</div>
