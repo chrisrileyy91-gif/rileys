@@ -1,0 +1,56 @@
+{
+  "month": "2026-08",
+  "snapshot_date": "2026-09-02",
+  "income": {"total": 8617},
+  "debt_service": {"total": 916},
+  "savings": {"apy": 4.01, "balance": 1702},
+  "mortgage": {
+    "rate": 3.75,
+    "principal": 111512,
+    "monthly_pi": 603,
+    "principal_portion": 254,
+    "interest_portion": 349,
+    "escrow": 600,
+    "home_value": 204700,
+    "purchase_price": 134818,
+    "original_loan": 130099,
+    "escrow_tax_monthly": 76,
+    "escrow_fha_monthly": 79,
+    "escrow_hazard_monthly": 192
+  },
+  "macro_context": {
+    "fed_funds": 3.63,
+    "treasury_1y": 4.15,
+    "treasury_10y": 4.75,
+    "mortgage_30y_market": 6.66,
+    "cpi_yoy": 3.4,
+    "h8_summary": "Post-Jackson Hole. 10Y at 4.75%, Sep hike odds 68%. Small-bank funding fading from July peak as TGA drain continues.",
+    "sloos_summary": "C&I unchanged · terms easing · CRE easing modestly",
+    "qra_summary": "Q3: $739B borrowing · $950B TGA target"
+  },
+  "spending": {
+    "total": 9337,
+    "categories": [
+      {"name": "Housing", "amount": 1710},
+      {"name": "Groceries", "amount": 1200},
+      {"name": "Transportation", "amount": 915},
+      {"name": "Dining", "amount": 800},
+      {"name": "Personal", "amount": 650},
+      {"name": "Savings & Investments", "amount": 444},
+      {"name": "Subscriptions", "amount": 280},
+      {"name": "Utilities", "amount": 224},
+      {"name": "Insurance", "amount": 183},
+      {"name": "Healthcare", "amount": 50},
+      {"name": "Entertainment", "amount": 15},
+      {"name": "Other", "amount": 2866}
+    ]
+  },
+  "reads": {
+    "economy": "Your household ran a <strong>$720 deficit</strong> in August — but the headline masks a split story. The 08/28 Guida paycheck came in at $2,944, nearly double the usual ~$1,590. Without that elevated check, income would have been ~$7,263 and the deficit would have been -$2,074. The spending side was genuinely heavy: $1,500 in ATM cash, $429 at Home Depot, $325 in SoS vehicle registrations, and dining that ran to $800 (elevated by a northern Michigan trip). Debt service climbed to $916 — Lake Trust at $772 (a $500 lump plus a $272 regular payment), Synchrony $108, Chase $36. Investment transfers dropped to $444 (RH Brokerage only, no Schwab), the lowest savings rate in the dataset at 5.2%. Spending rate of 108.4% means outflows exceeded income by 8 cents per dollar earned. The intra-month liquidity picture was worse than the net suggests: checking dropped to $86.57 on 08/05 before the Charter Township paycheck rescued it, and to $198.32 on 08/19 before the second Charter check. The household is structurally paycheck-to-paycheck within each cycle despite adequate total income.",
+    "savings": "Checking APY ticked up to <strong>4.01%</strong> — the first move from the 4.00% floor that held since March. With CPI at 3.4%, your real yield is <strong>+0.6%</strong>, unchanged from July. Liquid balance dropped from $2,418 to $1,702 — the second-lowest in the dataset after June's $1,143. Your credit union is still paying competitive rates on core deposits, but the intra-month balance drops to sub-$100 mean the effective interest earned on that 4% is minimal. Average daily balance was $1,113 per the statement, which on a 4.01% APY earns roughly $3.72/month — the dividend matches exactly.",
+    "mortgage": "Standard $1,203 payment. Your 3.75% rate is now <strong>2.91 points below market</strong> at ~6.66% (Freddie Mac PMMS, week ending Aug 27). That spread is the widest in the dataset — your locked rate gains value every time long-end yields rise. Principal at $111,512 with $254 going to principal this month. At current market rates, this loan would cost ~$625/month in interest alone versus your $349. The $276/month spread is locked wealth.",
+    "spending": "<strong>Top 3 discretionary categories:</strong><br><br><strong>1. Groceries — $1,200.</strong> Walmart in-store ($290) + Walmart.com ($431) + Aldi ($146) + Kroger ($66) + Sam's ($53) + Meijer ($31) + Target ($144) + Dollar stores ($91) + Massab Acres ($36) + Family Fare ($33). Walmart.com orders at $431 are the biggest single line item in groceries — two orders above $200 each. <strong>Shifting $200 to Aldi saves ~$50/month.</strong><br><br><strong>2. Dining — $800.</strong> The highest dining month in the dataset. A northern Michigan road trip (Aug 17-21) generated ~$225 in restaurant spending at Silver Dollar Pub, J&S Hamburg, Culver's, Kate's Sweet Shop, Wimpy's, Morning Glory, Buchan's Blueberry. Back home, the usual fast-food rotation continued: McDonald's (~$50 across 9 transactions), Starbucks (~$65 across 11 transactions), Subway (~$48), Jimmy Johns (~$42), Applebee's (~$79), Secret Recipes (~$74), Leo's Coney Island ($50). <strong>Trip dining is one-time, but Starbucks at $65/month and fast food at $200+/month are structural. Cutting $100/month from fast food saves $1,200/year.</strong><br><br><strong>3. Transportation — $915.</strong> Fuel ran ~$590 across 12+ Speedway fills — that's about $150/week. Two Secretary of State eServices charges at $162.72 each ($325 total) were likely vehicle registrations. <strong>Without the registrations, this drops to $590 — consistent with prior months.</strong>",
+    "macro_connection": "Jackson Hole was the inflection event this month. Warsh told markets the Fed may 'have work to do' — September hike odds jumped from 40% to 68% by month-end. The 10Y pushed to 4.75%, its highest since January 2025, and 30Y mortgage rates hit 6.66% (approaching the 2026 peak of 6.69%). Your fixed 3.75% mortgage is now the most valuable asset-class position on your balance sheet — the 291bp spread to market is locked and widening.\n\nThe small-bank funding picture that peaked in July continued to fade. TGA drain (Treasury building cash toward the $950B QRA target) is thinning reserves across the system. Your credit union's 4.01% APY held — they're still competing for deposits — but the environment is shifting. If the Fed hikes in September, your checking APY may follow upward (a rare case where a hike benefits you), but any variable-rate debt in the Lake Trust or Synchrony balances costs more immediately.\n\nCPI at 3.4% was a slight reprieve from June's 3.5%, driven by falling gas prices in July. But US-Iran tensions are pushing oil back up — the next CPI print (August data, releasing Sep 11) may reverse the trend. Your real yield on checking stays positive but thin at +0.6%.",
+    "monthly_note": "August 2026 was a split-personality month. On paper, the $720 deficit looks manageable. Under the hood, it was one of the most volatile months in the dataset.\n\nThe intra-month liquidity story is the real signal: checking balance hit $86.57 on August 5th — barely enough to clear a single debit card transaction — before the Charter Township paycheck rescued it to $2,102. It dropped to $198 on August 19th before the second Charter check rebuilt it to $2,266. And a third low point around August 12th saw the balance at $415 before the Guida paycheck arrived. The household is running three distinct paycheck-to-paycheck cycles within a single month.\n\nThe $2,944 Guida paycheck on 08/28 is the elephant in the room. If that was overtime, a bonus, or back pay, the income run-rate should be modeled at the normal ~$1,590 Guida level — which means a four-paycheck month like August would generate ~$7,673 in income, not $8,617. At $9,337 in spending, that's a -$1,664 structural deficit before the elevated check.\n\nA northern Michigan road trip (Interlochen, Traverse City, Houghton Lake, West Branch, Grayling, Roscommon, Kingsley) ran roughly Aug 17-21 based on merchant locations. Trip-related spending: ~$225 in dining, ~$200 in gas and road stops, ~$165 in retail — roughly $590 in incremental spending the household wouldn't carry in a normal month.\n\nInvestment flow dropped to $444 (RH Brokerage only, no Schwab transfer) — a 5.2% savings rate, the lowest in the dataset. Debt service spiked to $916 on a $500 Lake Trust lump payment. Home Depot spending at $429 suggests an active home improvement project.\n\nThe forward question is whether the elevated Guida check repeats. If it does, September income could hold in the $8,500-9,000 range. If it reverts to ~$1,590, the household needs spending to drop below $8,000 to avoid a deeper deficit — and at the current run rate, that requires cutting ~$1,300 from the month. The most actionable levers: dining ($800 → $500 saves $300), groceries ($1,200 → $1,000 saves $200), and ATM cash ($1,500 → target $500 saves $1,000)."
+  }
+}
